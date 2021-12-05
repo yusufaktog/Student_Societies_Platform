@@ -4,16 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
-import 'package:grad_project/pages/student_register_page.dart';
+import 'package:grad_project/pages/student_registeration_page.dart';
+
+import '../constants.dart';
 
 void main() {
   runApp(
     MaterialApp(
       initialRoute: LoginPage.routeName,
-      routes: {
-        LoginPage.routeName: (context) => const LoginPage(),
-        StudentRegistration.routeName: (context) => const StudentRegistration()
-      },
+      routes: routes,
     ),
   );
 }
@@ -44,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Card(
+                      margin: const EdgeInsets.only(bottom: 25.0),
                       color: color,
                       child: Row(
                         children: <Widget>[
@@ -83,91 +83,55 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
-                    Card(
-                      color: color,
-                      margin: const EdgeInsets.only(
-                        top: 30,
-                        bottom: 10,
-                        right: 20,
-                        left: 20,
-                      ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            TextFormField(
-                              style: const TextStyle(
-                                color: Color(0xFF000000),
-                              ),
-                              cursorColor: Colors.black,
-                              keyboardType: TextInputType.text,
-                              decoration: const InputDecoration(
-                                prefixIcon:
-                                    Icon(Icons.email, color: Colors.grey),
-                                hintText: "e-posta",
-                                hintStyle: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            )
-                          ],
-                        ),
+                    //
+                    CustomCard(
+                      backGroundColor: color,
+                      borderRadius: 10.0,
+                      verticalMargin: 5.0,
+                      horizontalMargin: 20.0,
+                      allPadding: 8.0,
+                      child: const CustomTextField(
+                        textColor: Colors.grey,
+                        fontSize: 15,
+                        hintText: "Password",
+                        prefixIcon: Icon(Icons.email, color: Colors.grey),
                       ),
                     ),
-                    Card(
-                      color: color,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            TextFormField(
-                              style: const TextStyle(
-                                color: Color(0xFF000000),
-                              ),
-                              cursorColor: Colors.black,
-                              keyboardType: TextInputType.text,
-                              decoration: const InputDecoration(
-                                prefixIcon: Icon(Icons.add_moderator_outlined,
-                                    color: Colors.grey),
-                                hintText: "şifre",
-                                hintStyle: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            )
-                          ],
-                        ),
+                    CustomCard(
+                      backGroundColor: color,
+                      borderRadius: 10.0,
+                      verticalMargin: 5.0,
+                      horizontalMargin: 20.0,
+                      allPadding: 8.0,
+                      child: const CustomTextField(
+                        textColor: Colors.grey,
+                        fontSize: 15,
+                        hintText: "Password",
+                        prefixIcon: Icon(Icons.add_moderator_outlined,
+                            color: Colors.grey),
                       ),
                     ),
                     CustomCard(
                       backGroundColor: Colors.grey,
+                      borderRadius: 10.0,
                       allPadding: 8.0,
                       verticalMargin: 5.0,
                       horizontalMargin: 20.0,
                       child: CustomTextButton(
-                        text: "GİRİŞ YAP",
-                        color: Colors.black87,
+                        text: "LOGIN",
+                        textStyle: TextStyle(color: Colors.black87),
                         onPressed: () {},
                       ),
                     ),
                     CustomCard(
                       backGroundColor: Colors.grey,
+                      borderRadius: 10.0,
                       allPadding: 8.0,
                       verticalMargin: 5.0,
                       horizontalMargin: 20.0,
                       child: CustomTextButton(
-                        text: "KAYDOL",
-                        color: Colors.black87,
+                        text: "SIGN UP",
+                        textStyle: TextStyle(color: Colors.black87),
                         onPressed: () {
                           Navigator.pushNamed(
                               context, StudentRegistration.routeName);
