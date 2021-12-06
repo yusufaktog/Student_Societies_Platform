@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class CustomCard extends StatelessWidget {
   const CustomCard(
       {Key? key,
@@ -87,6 +89,58 @@ class CustomTextButton extends StatelessWidget {
             style: textStyle,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CustomAppBarElement extends StatelessWidget {
+  final State state;
+  final String routeName;
+  final bool isUnderlined;
+  final Object? arguments;
+  final String text;
+  final double fontSize;
+
+  const CustomAppBarElement(
+      {Key? key,
+      required this.state,
+      required this.routeName,
+      required this.isUnderlined,
+      required this.text,
+      required this.fontSize,
+      this.arguments})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomCard(
+      backGroundColor: mainBackGroundColor,
+      borderRadius: 0.0,
+      verticalMargin: 0,
+      horizontalMargin: 0,
+      allPadding: 5.0,
+      child: CustomTextButton(
+        onPressed: () {
+          state.setState(() {
+            Navigator.pushNamed(context, routeName, arguments: arguments);
+          });
+        },
+        text: text,
+        textStyle: TextStyle(
+          color: Colors.transparent,
+          shadows: [
+            Shadow(
+                color: isUnderlined == true ? Colors.orange : Colors.white54,
+                offset: const Offset(0, -5))
+          ],
+          decorationThickness: 1.5,
+          decorationColor: Colors.orange,
+          decoration: isUnderlined == true
+              ? TextDecoration.underline
+              : TextDecoration.none,
+          fontSize: fontSize,
+        ),
       ),
     );
   }

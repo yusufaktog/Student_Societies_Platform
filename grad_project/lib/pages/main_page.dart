@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
-import 'package:grad_project/pages/student_registeration_page.dart';
+import 'package:grad_project/pages/authorized_user.dart';
+import 'package:grad_project/pages/student_registration_page.dart';
 
 import '../constants.dart';
 
@@ -67,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                                   FittedBox(
                                     fit: BoxFit.fill,
                                     child: Text(
-                                      "ÖĞRENCİ\nTOPLULUKLARI\nPLATFORMU",
+                                      "STUDENT\nSOCIETIES\nPLATFORM",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           wordSpacing: 30.0,
@@ -120,7 +121,10 @@ class _LoginPageState extends State<LoginPage> {
                       child: CustomTextButton(
                         text: "LOGIN",
                         textStyle: TextStyle(color: Colors.black87),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, AuthorizedUserPage.routeName);
+                        },
                       ),
                     ),
                     CustomCard(
