@@ -40,19 +40,28 @@ class CustomTextField extends StatelessWidget {
       required this.hintText,
       required this.fontSize,
       required this.textColor,
-      this.prefixIcon})
+      this.controller,
+      this.prefixIcon,
+      this.onChanged})
       : super(key: key);
 
   final String hintText;
   final double fontSize;
   final Color textColor;
   final Icon? prefixIcon;
+  final Function? onChanged;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: key,
+      onChanged: (value) {
+        onChanged!(value);
+      },
       cursorColor: Colors.black,
       keyboardType: TextInputType.text,
+      controller: controller,
       decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(
@@ -68,6 +77,7 @@ class CustomTextButton extends StatelessWidget {
   final String text;
   final Function onPressed;
   final TextStyle? textStyle;
+
   const CustomTextButton({
     Key? key,
     required this.text,

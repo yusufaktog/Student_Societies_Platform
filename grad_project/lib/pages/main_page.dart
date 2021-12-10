@@ -1,15 +1,21 @@
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
 import 'package:grad_project/pages/authorized_user.dart';
 import 'package:grad_project/pages/student_registration_page.dart';
+import 'package:grad_project/validators/input_validator.dart';
+
+// fire base default options bak
 
 import '../constants.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     MaterialApp(
       initialRoute: LoginPage.routeName,
@@ -27,21 +33,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController t1 = TextEditingController();
   Color color = const Color(0xff4D4365);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: color,
-      body: Center(
-        child: SafeArea(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: color,
+        body: Center(
           child: Container(
             color: color,
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Card(
                       margin: const EdgeInsets.only(bottom: 25.0),
@@ -62,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                           Expanded(
                             flex: 3,
                             child: Container(
-                              padding: const EdgeInsets.only(left: 30.0),
+                              padding: const EdgeInsets.only(left: 20.0),
                               child: Column(
                                 children: const [
                                   FittedBox(
@@ -84,18 +90,19 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
-                    //
                     CustomCard(
                       backGroundColor: color,
                       borderRadius: 10.0,
                       verticalMargin: 5.0,
                       horizontalMargin: 20.0,
                       allPadding: 8.0,
-                      child: const CustomTextField(
+                      child: CustomTextField(
+                        onChanged: (value) {},
+                        controller: t1,
                         textColor: Colors.grey,
                         fontSize: 15,
-                        hintText: "Password",
-                        prefixIcon: Icon(Icons.email, color: Colors.grey),
+                        hintText: "Student No / Username",
+                        prefixIcon: const Icon(Icons.email, color: Colors.grey),
                       ),
                     ),
                     CustomCard(
@@ -104,11 +111,12 @@ class _LoginPageState extends State<LoginPage> {
                       verticalMargin: 5.0,
                       horizontalMargin: 20.0,
                       allPadding: 8.0,
-                      child: const CustomTextField(
+                      child: CustomTextField(
+                        onChanged: (value) {},
                         textColor: Colors.grey,
                         fontSize: 15,
                         hintText: "Password",
-                        prefixIcon: Icon(Icons.add_moderator_outlined,
+                        prefixIcon: const Icon(Icons.add_moderator_outlined,
                             color: Colors.grey),
                       ),
                     ),
@@ -120,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                       horizontalMargin: 20.0,
                       child: CustomTextButton(
                         text: "LOGIN",
-                        textStyle: TextStyle(color: Colors.black87),
+                        textStyle: const TextStyle(color: Colors.black87),
                         onPressed: () {
                           Navigator.pushNamed(
                               context, AuthorizedUserPage.routeName);
@@ -135,13 +143,31 @@ class _LoginPageState extends State<LoginPage> {
                       horizontalMargin: 20.0,
                       child: CustomTextButton(
                         text: "SIGN UP",
-                        textStyle: TextStyle(color: Colors.black87),
+                        textStyle: const TextStyle(color: Colors.black87),
                         onPressed: () {
                           Navigator.pushNamed(
                               context, StudentRegistration.routeName);
                         },
                       ),
                     ),
+                    CustomCard(
+                      backGroundColor: Colors.grey,
+                      verticalMargin: 10,
+                      horizontalMargin: 10,
+                      allPadding: 5.0,
+                      child: CustomTextButton(
+                        onPressed: () {
+                          if (InputValidator.isValidStudentId(t1.text)) {
+                            print(t1.text + "@ogr.cbu.edu.tr");
+                          } else {
+                            print("hata");
+                          }
+                          t1.clear();
+                        },
+                        text: 'click',
+                      ),
+                      borderRadius: 10.0,
+                    )
                   ],
                 ),
               ),

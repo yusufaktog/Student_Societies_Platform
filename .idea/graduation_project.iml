@@ -13,6 +13,9 @@
       <excludeFolder url="file://$MODULE_DIR$/grad_project/build" />
       <excludeFolder url="file://$MODULE_DIR$/grad_project/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/grad_project/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/.pub" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 31 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
