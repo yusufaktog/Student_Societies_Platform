@@ -15,7 +15,7 @@ import '../constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: firebaseConfig);
   runApp(
     MaterialApp(
       initialRoute: LoginPage.routeName,
