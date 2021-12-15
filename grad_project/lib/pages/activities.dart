@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
+import 'package:grad_project/service/auth.dart';
 
 import '../constants.dart';
 import 'authorized_user.dart';
 import 'communities.dart';
+import 'main_page.dart';
 
 class ActivitiesPage extends StatefulWidget {
   const ActivitiesPage({Key? key}) : super(key: key);
@@ -15,6 +17,9 @@ class ActivitiesPage extends StatefulWidget {
 }
 
 class _ActivitiesPageState extends State<ActivitiesPage> {
+  final AuthService _authService = AuthService();
+  var flexFactor = 5;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,32 +28,50 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         child: Row(
           children: <Widget>[
             Expanded(
+              flex: flexFactor,
               child: CustomAppBarElement(
                 state: this,
                 routeName: AuthorizedUserPage.routeName,
                 isUnderlined: false,
                 text: "HOME PAGE",
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
             Expanded(
+              flex: flexFactor,
               child: CustomAppBarElement(
                 state: this,
                 routeName: CommunitiesPage.routeName,
                 isUnderlined: false,
                 text: "COMMUNITIES",
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
             Expanded(
+              flex: flexFactor - 1,
               child: CustomAppBarElement(
                 state: this,
                 routeName: ActivitiesPage.routeName,
                 isUnderlined: true,
                 text: "ACTIVITIES",
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: mainBackGroundColor,
+                child: IconButton(
+                  iconSize: 30,
+                  color: Colors.red,
+                  icon: logoutIcon,
+                  onPressed: () {
+                    _authService.signOut();
+                    Navigator.pushNamed(context, LoginPage.routeName);
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),

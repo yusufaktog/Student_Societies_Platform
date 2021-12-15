@@ -1,12 +1,13 @@
 import 'dart:ui';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
 import 'package:grad_project/pages/community_registration_page.dart';
+import 'package:grad_project/pages/main_page.dart';
+import 'package:grad_project/service/auth.dart';
 
 import '../constants.dart';
 
@@ -29,16 +30,15 @@ class StudentRegistration extends StatefulWidget {
 }
 
 class _StudentRegistrationState extends State<StudentRegistration> {
-  TextEditingController t1 = TextEditingController();
-  var studentNo;
-  var password;
-  var name;
-  var faculty;
+  final AuthService _authService = AuthService();
+
+  var _studentNo;
+  var _password;
+  var _name;
+  var _faculty;
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference student =
-        FirebaseFirestore.instance.collection('student');
     return SafeArea(
       child: Scaffold(
         backgroundColor: mainBackGroundColor,
@@ -91,7 +91,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                   horizontalMargin: 20.0,
                   child: CustomTextField(
                     onChanged: (value) {
-                      studentNo = value;
+                      _studentNo = value;
                     },
                     hintText: "Student No",
                     fontSize: 15,
@@ -106,7 +106,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                   horizontalMargin: 20.0,
                   child: CustomTextField(
                     onChanged: (value) {
-                      name = value;
+                      _name = value;
                     },
                     hintText: "Name Surname",
                     fontSize: 15,
@@ -121,7 +121,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                   horizontalMargin: 20.0,
                   child: CustomTextField(
                     onChanged: (value) {
-                      password = value;
+                      _password = value;
                     },
                     hintText: "Password",
                     fontSize: 15,
@@ -136,7 +136,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                   horizontalMargin: 20.0,
                   child: CustomTextField(
                       onChanged: (value) {
-                        faculty = value;
+                        _faculty = value;
                       },
                       textColor: Colors.black87,
                       hintText: "Department / Faculty",
@@ -154,12 +154,23 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     child: CustomTextButton(
                       textStyle: const TextStyle(color: Colors.black),
                       onPressed: () {
+                        var _email = _studentNo + "@ogr.cbu.edu.tr";
+                        _authService
+                            .createStudent(
+                                _name, _password, _email, _faculty, _studentNo)
+                            .then((value) => {
+                                  Navigator.pushNamed(
+                                      context, LoginPage.routeName)
+                                });
+/*
                         student.add({
                           "email": studentNo + "@ogr.cbu.edu.tr",
                           "faculty": faculty,
                           "name": name,
                           "studentNo": studentNo
                         });
+
+*/
                       },
                       text: "SUBMIT",
                     ),

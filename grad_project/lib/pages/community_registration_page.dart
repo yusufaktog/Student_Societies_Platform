@@ -62,7 +62,7 @@ class _CommunityRegistrationState extends State<CommunityRegistration> {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 30.0),
                   child: Text(
-                    "Student Community\nRegistration Form",
+                    "Community\nRegistration Form",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25,

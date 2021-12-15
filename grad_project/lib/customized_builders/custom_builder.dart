@@ -129,7 +129,7 @@ class CustomAppBarElement extends StatelessWidget {
       borderRadius: 0.0,
       verticalMargin: 0,
       horizontalMargin: 0,
-      allPadding: 5.0,
+      allPadding: 9.0,
       child: CustomTextButton(
         onPressed: () {
           state.setState(() {

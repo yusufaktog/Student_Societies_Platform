@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
 import 'package:grad_project/pages/authorized_user.dart';
 import 'package:grad_project/pages/student_registration_page.dart';
+import 'package:grad_project/service/auth.dart';
 import 'package:grad_project/validators/input_validator.dart';
 
 // fire base default options bak
@@ -15,7 +16,7 @@ import '../constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: firebaseConfig);
   runApp(
     MaterialApp(
       initialRoute: LoginPage.routeName,
@@ -34,16 +35,19 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController t1 = TextEditingController();
-  Color color = const Color(0xff4D4365);
+  final AuthService _authService = AuthService();
+
+  String _email = "";
+  String _password = "";
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: color,
+        backgroundColor: mainBackGroundColor,
         body: Center(
           child: Container(
-            color: color,
+            color: mainBackGroundColor,
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -51,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     Card(
                       margin: const EdgeInsets.only(bottom: 25.0),
-                      color: color,
+                      color: mainBackGroundColor,
                       child: Row(
                         children: <Widget>[
                           const Expanded(
@@ -91,13 +95,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     CustomCard(
-                      backGroundColor: color,
+                      backGroundColor: mainBackGroundColor,
                       borderRadius: 10.0,
                       verticalMargin: 5.0,
                       horizontalMargin: 20.0,
                       allPadding: 8.0,
                       child: CustomTextField(
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          _email = value + "@ogr.cbu.edu.tr";
+                        },
                         controller: t1,
                         textColor: Colors.grey,
                         fontSize: 15,
@@ -106,13 +112,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     CustomCard(
-                      backGroundColor: color,
+                      backGroundColor: mainBackGroundColor,
                       borderRadius: 10.0,
                       verticalMargin: 5.0,
                       horizontalMargin: 20.0,
                       allPadding: 8.0,
                       child: CustomTextField(
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          _password = value;
+                        },
                         textColor: Colors.grey,
                         fontSize: 15,
                         hintText: "Password",
@@ -130,8 +138,16 @@ class _LoginPageState extends State<LoginPage> {
                         text: "LOGIN",
                         textStyle: const TextStyle(color: Colors.black87),
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, AuthorizedUserPage.routeName);
+                          _authService
+                              .signIn(_email, _password)
+                              .then((user) => {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                AuthorizedUserPage(user: user)),
+                                        (route) => false)
+                                  });
                         },
                       ),
                     ),
