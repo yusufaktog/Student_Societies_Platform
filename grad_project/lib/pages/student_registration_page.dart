@@ -95,7 +95,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     },
                     hintText: "Student No",
                     fontSize: 15,
-                    textColor: Colors.black87,
+                    textColor: Colors.white54,
                   ),
                 ),
                 CustomCard(
@@ -110,7 +110,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     },
                     hintText: "Name Surname",
                     fontSize: 15,
-                    textColor: Colors.black87,
+                    textColor: Colors.white54,
                   ),
                 ),
                 CustomCard(
@@ -125,7 +125,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     },
                     hintText: "Password",
                     fontSize: 15,
-                    textColor: Colors.black87,
+                    textColor: Colors.white54,
                   ),
                 ),
                 CustomCard(
@@ -138,7 +138,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                       onChanged: (value) {
                         _faculty = value;
                       },
-                      textColor: Colors.black87,
+                      textColor: Colors.white54,
                       hintText: "Department / Faculty",
                       fontSize: 15),
                 ),

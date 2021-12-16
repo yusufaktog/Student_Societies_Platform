@@ -11,10 +11,10 @@ class InputValidator {
 
       flag = false;
     }
+
     try {
       int.parse(studentId);
     } catch (e) {
-      print("student id must not contain any other than integers");
       flag = false;
     }
 

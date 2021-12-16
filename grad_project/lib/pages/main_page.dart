@@ -8,7 +8,6 @@ import 'package:grad_project/customized_builders/custom_builder.dart';
 import 'package:grad_project/pages/authorized_user.dart';
 import 'package:grad_project/pages/student_registration_page.dart';
 import 'package:grad_project/service/auth.dart';
-import 'package:grad_project/validators/input_validator.dart';
 
 // fire base default options bak
 
@@ -173,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                       allPadding: 5.0,
                       child: CustomTextButton(
                         onPressed: () {
-                          if (InputValidator.isValidStudentId(t1.text)) {
+                          if (!t1.text.contains(RegExp(r'[a-z]'))) {
                             print(t1.text + "@ogr.cbu.edu.tr");
                           } else {
                             print("hata");

@@ -25,6 +25,27 @@ class AuthService {
     return user.user;
   }
 
+  Future<User?> createCommunity(
+    String name,
+    String password,
+    String email,
+    String faculty,
+    String description,
+  ) async {
+    var user = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+
+    await _firestore.collection("Community").doc(user.user!.uid).set({
+      'name': name,
+      'email': email,
+      'faculty': faculty,
+      'description': description,
+      'type': "community",
+      'followerNumber': 0,
+    });
+    return user.user;
+  }
+
   signOut() async {
     return await _auth.signOut();
   }
