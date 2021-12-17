@@ -8,6 +8,7 @@ import 'package:grad_project/customized_builders/custom_builder.dart';
 import 'package:grad_project/pages/authorized_user.dart';
 import 'package:grad_project/pages/student_registration_page.dart';
 import 'package:grad_project/service/auth.dart';
+import 'package:grad_project/validators/input_validator.dart';
 
 // fire base default options bak
 
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                       allPadding: 8.0,
                       child: CustomTextField(
                         onChanged: (value) {
-                          _email = value + "@ogr.cbu.edu.tr";
+                          //_email = value + "@ogr.cbu.edu.tr";
                         },
                         controller: t1,
                         textColor: Colors.grey,
@@ -137,16 +138,37 @@ class _LoginPageState extends State<LoginPage> {
                         text: "LOGIN",
                         textStyle: const TextStyle(color: Colors.black87),
                         onPressed: () {
-                          _authService
-                              .signIn(_email, _password)
-                              .then((user) => {
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                AuthorizedUserPage(user: user)),
-                                        (route) => false)
-                                  });
+                          if (!t1.text.contains(RegExp(r'[a-z]'))) {
+                            _email = t1.text + "@ogr.cbu.edu.tr";
+                            if (InputValidator.isValidStudentId(t1.text)) {
+                              _authService
+                                  .signIn(_email, _password)
+                                  .then((user) => {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    AuthorizedUserPage(
+                                                        user: user)),
+                                            (route) => false)
+                                      });
+                              print("Student girişi başarılı");
+                            }
+                          } else {
+                            _email = t1.text + "@soc.cbu.edu.tr";
+                            _authService
+                                .signIn(_email, _password)
+                                .then((user) => {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  AuthorizedUserPage(
+                                                      user: user)),
+                                          (route) => false)
+                                    });
+                            print("Community girişi başarılı");
+                          }
                         },
                       ),
                     ),

@@ -172,7 +172,7 @@ class _CommunityRegistrationState extends State<CommunityRegistration> {
                     child: CustomTextButton(
                       text: "SEND THE FORM",
                       onPressed: () {
-                        var _email = _userName + "@ogr.cbu.edu.tr";
+                        var _email = _userName + "@soc.cbu.edu.tr";
                         _authService
                             .createCommunity(_communityName, _password, _email,
                                 _relatedFaculty, _description)
