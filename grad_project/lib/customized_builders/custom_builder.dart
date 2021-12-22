@@ -42,20 +42,25 @@ class CustomTextField extends StatelessWidget {
       required this.textColor,
       this.controller,
       this.prefixIcon,
-      this.onChanged})
+      this.suffixIcon,
+      this.onChanged,
+      this.isObscureText})
       : super(key: key);
 
   final String hintText;
   final double fontSize;
   final Color textColor;
-  final Icon? prefixIcon;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final Function? onChanged;
   final TextEditingController? controller;
+  final bool? isObscureText;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       key: key,
+      obscureText: isObscureText ?? false,
       onChanged: (value) {
         onChanged!(value);
       },
@@ -63,12 +68,14 @@ class CustomTextField extends StatelessWidget {
       keyboardType: TextInputType.text,
       controller: controller,
       decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(
-              color: textColor,
-              fontSize: fontSize,
-              fontWeight: FontWeight.normal),
-          prefixIcon: prefixIcon),
+        hintText: hintText,
+        hintStyle: TextStyle(
+            color: textColor,
+            fontSize: fontSize,
+            fontWeight: FontWeight.normal),
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+      ),
     );
   }
 }

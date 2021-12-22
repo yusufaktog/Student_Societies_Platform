@@ -87,7 +87,6 @@ class _AuthorizedUserPageState extends State<AuthorizedUserPage> {
           builder: (_, snapshot) {
             final docs = snapshot.data!.docs;
             final data = docs[1].data();
-
             return data['type'];
           },
         ),

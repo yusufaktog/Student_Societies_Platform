@@ -39,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   String _email = "";
   String _password = "";
+  bool _isVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -118,14 +119,28 @@ class _LoginPageState extends State<LoginPage> {
                       horizontalMargin: 20.0,
                       allPadding: 8.0,
                       child: CustomTextField(
+                        isObscureText: _isVisible,
                         onChanged: (value) {
                           _password = value;
                         },
                         textColor: Colors.grey,
                         fontSize: 15,
                         hintText: "Password",
-                        prefixIcon: const Icon(Icons.add_moderator_outlined,
-                            color: Colors.grey),
+                        prefixIcon:
+                            const Icon(Icons.security, color: Colors.grey),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isVisible = !_isVisible;
+                              });
+                            },
+                            icon: _isVisible
+                                ? const Icon(
+                                    Icons.visibility,
+                                    color: Colors.grey,
+                                  )
+                                : const Icon(Icons.visibility_off,
+                                    color: Colors.grey)),
                       ),
                     ),
                     CustomCard(

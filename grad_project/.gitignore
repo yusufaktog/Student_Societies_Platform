@@ -15,6 +15,10 @@
 *.iws
 .idea/
 
+.flutter-plugins-dependencies
+.packages
+.build/4f2a58af27abc49ecf55570043bbf938.cache.dill.track.dill
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
