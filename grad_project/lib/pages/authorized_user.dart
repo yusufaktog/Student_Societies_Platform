@@ -80,16 +80,18 @@ class _AuthorizedUserPageState extends State<AuthorizedUserPage> {
           ],
         ),
       ),
-      body: Container(
-        color: mainBackGroundColor,
-        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance.collection('Student').snapshots(),
-          builder: (_, snapshot) {
-            final docs = snapshot.data!.docs;
-            final data = docs[1].data();
-            return data['type'];
-          },
-        ),
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance.collection('Student').snapshots(),
+        builder: (_, snapshot) {
+          final docs = snapshot.data!.docs;
+          final data = docs[1].data();
+          print(data['type']);
+
+          return Container(
+            color: mainBackGroundColor,
+            child: Text("student girişi yapıldı"),
+          );
+        },
       ),
     );
   }

@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                       allPadding: 8.0,
                       child: CustomTextField(
                         onChanged: (value) {
-                          _email = value + "@ogr.cbu.edu.tr";
+                          //_email = value + "@ogr.cbu.edu.tr";
                         },
                         controller: t1,
                         textColor: Colors.grey,
@@ -153,16 +153,37 @@ class _LoginPageState extends State<LoginPage> {
                         text: "LOGIN",
                         textStyle: const TextStyle(color: Colors.black87),
                         onPressed: () {
-                          _authService
-                              .signIn(_email, _password)
-                              .then((user) => {
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                AuthorizedUserPage(user: user)),
-                                        (route) => false)
-                                  });
+                          if (!t1.text.contains(RegExp(r'[a-z]'))) {
+                            _email = t1.text + "@ogr.cbu.edu.tr";
+                            if (InputValidator.isValidStudentId(t1.text)) {
+                              _authService
+                                  .signIn(_email, _password)
+                                  .then((user) => {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    AuthorizedUserPage(
+                                                        user: user)),
+                                            (route) => false)
+                                      });
+                              print("Student girişi başarılı");
+                            }
+                          } else {
+                            _email = t1.text + "@soc.cbu.edu.tr";
+                            _authService
+                                .signIn(_email, _password)
+                                .then((user) => {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  AuthorizedUserPage(
+                                                      user: user)),
+                                          (route) => false)
+                                    });
+                            print("Community girişi başarılı");
+                          }
                         },
                       ),
                     ),
@@ -188,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                       allPadding: 5.0,
                       child: CustomTextButton(
                         onPressed: () {
-                          if (InputValidator.isValidStudentId(t1.text)) {
+                          if (!t1.text.contains(RegExp(r'[a-z]'))) {
                             print(t1.text + "@ogr.cbu.edu.tr");
                           } else {
                             print("hata");
