@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
-import 'package:grad_project/entities/student.dart';
+import 'package:grad_project/model/student.dart';
 import 'package:grad_project/pages/community_registration_page.dart';
 import 'package:grad_project/pages/main_page.dart';
 import 'package:grad_project/service/crud_service/student_service.dart';

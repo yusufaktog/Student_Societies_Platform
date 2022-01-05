@@ -3,12 +3,11 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grad_project/pages/activities.dart';
-import 'package:grad_project/pages/authorized_community.dart';
 import 'package:grad_project/pages/authorized_user.dart';
 import 'package:grad_project/pages/communities.dart';
 import 'package:grad_project/pages/community_registration_page.dart';
 import 'package:grad_project/pages/create_activity_page.dart';
+import 'package:grad_project/pages/events.dart';
 import 'package:grad_project/pages/main_page.dart';
 import 'package:grad_project/pages/student_registration_page.dart';
 
@@ -17,12 +16,16 @@ var routes = {
   LoginPage.routeName: (context) => const LoginPage(),
   StudentRegistration.routeName: (context) => const StudentRegistration(),
   CommunityRegistration.routeName: (context) => const CommunityRegistration(),
-  AuthorizedUserPage.routeName: (context) =>
-      const AuthorizedUserPage(user: null),
-  AuthorizedCommunityPage.routeName: (context) =>
-      const AuthorizedCommunityPage(),
-  CommunitiesPage.routeName: (context) => const CommunitiesPage(),
-  ActivitiesPage.routeName: (context) => const ActivitiesPage(),
+  AuthorizedUserPage.routeName: (context) => const AuthorizedUserPage(
+        user: null,
+        type: '',
+      ),
+  AuthorizedCommunityPage.routeName: (context) => const AuthorizedCommunityPage(
+        type: '',
+      ),
+  EventsPage.routeName: (context) => const EventsPage(
+        type: '',
+      ),
   CreateActivityPage.routeName: (context) => const CreateActivityPage()
 };
 const preferredAppBarHeight = Size.fromHeight(100);
@@ -32,7 +35,7 @@ const Icon logoutIcon = Icon(
 );
 const searchIcon = Icon(Icons.search);
 
-FirebaseOptions firebaseConfig = const FirebaseOptions(
+const FirebaseOptions firebaseConfig = FirebaseOptions(
   apiKey: "AIzaSyB7Qu7D75-FyzGmyu5fnh6Fg_2WD9hopcA",
   authDomain: "graduation-project-ef9a7.firebaseapp.com",
   projectId: "graduation-project-ef9a7",

@@ -8,8 +8,10 @@ import '../constants.dart';
 
 class AuthorizedUserPage extends StatefulWidget {
   final User? user;
+  final String type;
 
-  const AuthorizedUserPage({Key? key, required this.user}) : super(key: key);
+  const AuthorizedUserPage({Key? key, required this.user, required this.type})
+      : super(key: key);
   static const String routeName = '/authorized_page';
 
   @override
@@ -24,7 +26,8 @@ class _AuthorizedUserPageState extends State<AuthorizedUserPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: mainBackGroundColor,
-        appBar: buildPreferredSize(context, this, true, false, false),
+        appBar:
+            buildPreferredSize(context, this, true, false, false, widget.type),
         body: Container(color: mainBackGroundColor),
       ),
     );

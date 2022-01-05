@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:grad_project/entities/community.dart';
+import 'package:grad_project/model/community.dart';
 
 class CommunityService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

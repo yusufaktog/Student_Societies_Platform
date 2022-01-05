@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grad_project/entities/community.dart';
-import 'package:grad_project/pages/activities.dart';
-import 'package:grad_project/pages/authorized_community.dart';
+import 'package:grad_project/model/community.dart';
+import 'package:grad_project/model/event.dart';
 import 'package:grad_project/pages/authorized_user.dart';
+import 'package:grad_project/pages/communities.dart';
+import 'package:grad_project/pages/events.dart';
 import 'package:grad_project/pages/main_page.dart';
 import 'package:grad_project/service/auth.dart';
 
@@ -223,8 +224,63 @@ class _CommunityCardState extends State<CommunityCard> {
   }
 }
 
-PreferredSize buildPreferredSize(BuildContext context, State state,
-    bool homeUnderLined, bool communityUnderLined, bool activityUnderLined) {
+class EventCard extends StatefulWidget {
+  final CommunityEvent event;
+  const EventCard({Key? key, required this.event}) : super(key: key);
+
+  @override
+  _EventCardState createState() => _EventCardState();
+}
+
+class _EventCardState extends State<EventCard> {
+  @override
+  Card build(BuildContext context) {
+    return Card(
+      color: Colors.blueAccent,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 2,
+              child: Image.network(widget.event.imageUrl!),
+            ),
+            Expanded(
+              flex: 5,
+              child: Column(
+                children: <Widget>[
+                  Text(widget.event.name ?? "default"),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Text(
+                      widget.event.description ?? "default",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+PreferredSize buildPreferredSize(
+    BuildContext context,
+    State state,
+    bool homeUnderLined,
+    bool communityUnderLined,
+    bool activityUnderLined,
+    Object? arguments) {
   var flexFactor = 3;
   var fontSize = 15.0;
   final AuthService _authService = AuthService();
@@ -239,8 +295,9 @@ PreferredSize buildPreferredSize(BuildContext context, State state,
             state: state,
             routeName: AuthorizedUserPage.routeName,
             isUnderlined: homeUnderLined,
-            text: "HOME PAGE",
+            text: arguments.toString(),
             fontSize: fontSize,
+            arguments: arguments,
           ),
         ),
         Expanded(
@@ -251,22 +308,24 @@ PreferredSize buildPreferredSize(BuildContext context, State state,
             isUnderlined: communityUnderLined,
             text: "COMMUNITIES",
             fontSize: fontSize - 2,
+            arguments: arguments,
           ),
         ),
         Expanded(
           flex: flexFactor,
           child: CustomAppBarElement(
             state: state,
-            routeName: ActivitiesPage.routeName,
+            routeName: EventsPage.routeName,
             isUnderlined: activityUnderLined,
-            text: "ACTIVITIES",
+            text: "EVENTS",
             fontSize: fontSize,
+            arguments: arguments,
           ),
         ),
         Expanded(
           flex: 1,
           child: Container(
-            height: 47,
+            height: 66,
             color: mainBackGroundColor,
             child: IconButton(
               iconSize: 30,

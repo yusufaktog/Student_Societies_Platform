@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
-import 'package:grad_project/pages/authorized_user.dart';
 import 'package:grad_project/pages/student_registration_page.dart';
 import 'package:grad_project/service/auth.dart';
 import 'package:grad_project/validators/input_validator.dart';
@@ -14,10 +13,11 @@ import 'package:grad_project/validators/input_validator.dart';
 // fire base default options bak
 
 import '../constants.dart';
+import 'authorized_user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: firebaseConfig);
+  await Firebase.initializeApp();
 
   runApp(
     MaterialApp(
@@ -29,7 +29,7 @@ Future<void> main() async {
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
-  static const String routeName = '/home';
+  static const String routeName = '/login_page';
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -166,7 +166,8 @@ class _LoginPageState extends State<LoginPage> {
                                             MaterialPageRoute(
                                                 builder: (_) =>
                                                     AuthorizedUserPage(
-                                                        user: user)),
+                                                        user: user,
+                                                        type: "studdent")),
                                             (route) => false)
                                       });
                               print("Student girişi başarılı");
@@ -179,8 +180,8 @@ class _LoginPageState extends State<LoginPage> {
                                       Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (_) =>
-                                                AuthorizedUserPage(user: user),
+                                            builder: (_) => AuthorizedUserPage(
+                                                user: user, type: "community"),
                                           ),
                                           (route) => false)
                                     });
