@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:grad_project/model/community.dart';
 import 'package:grad_project/model/event.dart';
 import 'package:grad_project/pages/authorized_user.dart';
@@ -257,6 +258,8 @@ class _EventCardState extends State<EventCard> {
                     padding: const EdgeInsets.symmetric(horizontal: 40.0),
                     child: Text(
                       widget.event.description ?? "default",
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 15,

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
 import 'package:grad_project/model/community.dart';
+import 'package:grad_project/pages/detailed_community.dart';
 
 import '../constants.dart';
 
 class AuthorizedCommunityPage extends StatefulWidget {
   static const String routeName = '/authorized_community_page';
   final String type;
+
   const AuthorizedCommunityPage({Key? key, required this.type})
       : super(key: key);
 
@@ -82,7 +84,8 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => CommunityCard(
+                                        builder: (context) =>
+                                            DetailedCommunityPage(
                                           community: Community(
                                             relatedFaculty: communities[index]
                                                 ["faculty"],

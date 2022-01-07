@@ -19,4 +19,11 @@ class CommunityService {
       'type': "community",
     });
   }
+
+  Future<void> updateFollowers(Community community, String communityId) async {
+    await _firestore
+        .collection("Communities")
+        .doc(communityId)
+        .update({'followerNumber': community.followerNumber});
+  }
 }

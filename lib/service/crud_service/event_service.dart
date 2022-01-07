@@ -26,4 +26,14 @@ class EventService {
         .doc(communityUid)
         .update({'image_url': imageUrl});
   }
+
+  Future<void> updateParticipants(CommunityEvent event) async {
+    var _communityEventDocId =
+        event.communityId! + event.time!.toDate().toString().split('.')[0];
+
+    await _firestore
+        .collection("Events")
+        .doc(_communityEventDocId)
+        .update({'participants': event.participants!});
+  }
 }

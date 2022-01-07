@@ -12,6 +12,7 @@ import 'package:grad_project/service/crud_service/event_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../constants.dart';
+import 'detailed_event.dart';
 
 class EventsPage extends StatefulWidget {
   const EventsPage({Key? key, required this.type}) : super(key: key);
@@ -76,16 +77,16 @@ class _EventsPageState extends State<EventsPage> {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => EventCard(
+                                        builder: (context) => DetailedEventCard(
                                             event: CommunityEvent(
-                                          events[index]["name"],
-                                          events[index]["description"],
-                                          events[index]["location"],
-                                          events[index]["time"],
-                                          events[index]["participants"],
-                                          events[index]["sections"],
-                                          events[index]["image_url"],
-                                        )),
+                                                events[index]["name"],
+                                                events[index]["description"],
+                                                events[index]["location"],
+                                                events[index]["time"],
+                                                events[index]["participants"],
+                                                events[index]["sections"],
+                                                events[index]["image_url"],
+                                                events[index]["communityId"])),
                                       ),
                                     );
                                   },
@@ -94,14 +95,14 @@ class _EventsPageState extends State<EventsPage> {
                                         vertical: 4.0, horizontal: 16.0),
                                     child: EventCard(
                                         event: CommunityEvent(
-                                      events[index]["name"],
-                                      events[index]["description"],
-                                      events[index]["location"],
-                                      events[index]["time"],
-                                      events[index]["participants"],
-                                      events[index]["sections"],
-                                      events[index]["image_url"],
-                                    )),
+                                            events[index]["name"],
+                                            events[index]["description"],
+                                            events[index]["location"],
+                                            events[index]["time"],
+                                            events[index]["participants"],
+                                            events[index]["sections"],
+                                            events[index]["image_url"],
+                                            events[index]["communityId"])),
                                   ),
                                 ),
                               );
@@ -222,9 +223,9 @@ class _EventsPageState extends State<EventsPage> {
                       Timestamp.fromDate(DateTime.parse(_time!)),
                       0,
                       _sections,
-                      _imageUrl);
+                      _imageUrl,
+                      FirebaseAuth.instance.currentUser!.uid);
                   await _eventService.createEvent(user!.uid + _time!, event);
-                  print("bişeyler");
                   Navigator.pop(context);
                 },
               ),
