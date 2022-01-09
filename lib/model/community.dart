@@ -5,6 +5,7 @@ class Community {
   String description;
   int followerNumber;
   String email;
+  String id;
 
   Community(
       {required this.communityName,
@@ -12,5 +13,6 @@ class Community {
       required this.relatedFaculty,
       this.userName,
       required this.followerNumber,
-      required this.email});
+      required this.email,
+      required this.id});
 }

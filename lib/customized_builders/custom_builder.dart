@@ -298,7 +298,7 @@ PreferredSize buildPreferredSize(
             state: state,
             routeName: AuthorizedUserPage.routeName,
             isUnderlined: homeUnderLined,
-            text: arguments.toString(),
+            text: "HOME PAGE",
             fontSize: fontSize,
             arguments: arguments,
           ),
@@ -327,23 +327,19 @@ PreferredSize buildPreferredSize(
         ),
         Expanded(
           flex: 1,
-          child: Container(
-            height: 66,
-            color: mainBackGroundColor,
-            child: IconButton(
-              iconSize: 30,
-              color: Colors.red,
-              icon: logoutIcon,
-              onPressed: () {
-                _authService.signOut();
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const LoginPage(),
-                    ),
-                    (route) => false);
-              },
-            ),
+          child: IconButton(
+            iconSize: 30,
+            color: Colors.red,
+            icon: logoutIcon,
+            onPressed: () {
+              _authService.signOut();
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const LoginPage(),
+                  ),
+                  (route) => false);
+            },
           ),
         )
       ],

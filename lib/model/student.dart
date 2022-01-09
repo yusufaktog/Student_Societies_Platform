@@ -4,9 +4,5 @@ class Student {
   String email;
   String faculty;
 
-  Student(
-      {required this.name,
-      required this.email,
-      required this.faculty,
-      required this.studentNo});
+  Student({required this.name, required this.email, required this.faculty, required this.studentNo});
 }

@@ -10,6 +10,5 @@ class CommunityEvent {
   String? imageUrl;
   String? communityId;
 
-  CommunityEvent(this.name, this.description, this.location, this.time,
-      this.participants, this.sections, this.imageUrl, this.communityId);
+  CommunityEvent(this.name, this.description, this.location, this.time, this.participants, this.sections, this.imageUrl, this.communityId);
 }

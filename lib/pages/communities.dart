@@ -12,12 +12,10 @@ class AuthorizedCommunityPage extends StatefulWidget {
   static const String routeName = '/authorized_community_page';
   final String type;
 
-  const AuthorizedCommunityPage({Key? key, required this.type})
-      : super(key: key);
+  const AuthorizedCommunityPage({Key? key, required this.type}) : super(key: key);
 
   @override
-  _AuthorizedCommunityPageState createState() =>
-      _AuthorizedCommunityPageState();
+  _AuthorizedCommunityPageState createState() => _AuthorizedCommunityPageState();
 }
 
 class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
@@ -27,12 +25,11 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
       child: Scaffold(
         backgroundColor: mainBackGroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: mainBackGroundColor,
           bottom: PreferredSize(
             child: Column(
               children: [
-                buildPreferredSize(
-                    context, this, true, false, false, widget.type),
+                buildPreferredSize(context, this, false, true, false, widget.type),
                 TextField(
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
@@ -40,10 +37,8 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                     hintStyle: const TextStyle(
                       color: Color(0xFFA0A0A0),
                     ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
                     filled: true,
                     fillColor: const Color(0xFFF0F0F6),
                     focusColor: const Color(0xFFF0F0F6),
@@ -64,58 +59,46 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
           ),
         ),
         body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
           child: Column(
             children: [
               StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection("Communities")
-                      .snapshots(),
+                  stream: FirebaseFirestore.instance.collection("Communities").snapshots(),
                   builder: (context, snapshot) {
                     return snapshot.connectionState != ConnectionState.waiting
                         ? ListView.builder(
+                            primary: false,
                             shrinkWrap: true,
                             itemCount: snapshot.data!.size,
                             itemBuilder: (context, index) {
                               var communities = snapshot.data!.docs;
                               return Padding(
-                                padding: const EdgeInsets.all(6.0),
+                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                                 child: InkWell(
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            DetailedCommunityPage(
+                                        builder: (context) => DetailedCommunityPage(
                                           community: Community(
-                                            relatedFaculty: communities[index]
-                                                ["faculty"],
-                                            description: communities[index]
-                                                ["description"],
-                                            followerNumber: communities[index]
-                                                ["followerNumber"],
-                                            communityName: communities[index]
-                                                ["name"],
-                                            email: communities[index]["email"],
-                                          ),
+                                              relatedFaculty: communities[index]["faculty"],
+                                              description: communities[index]["description"],
+                                              followerNumber: communities[index]["followerNumber"],
+                                              communityName: communities[index]["name"],
+                                              email: communities[index]["email"],
+                                              id: communities[index]["id"]),
                                         ),
                                       ),
                                     );
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0, horizontal: 16.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
                                     child: CommunityCard(
                                       community: Community(
-                                        relatedFaculty: communities[index]
-                                            ["faculty"],
-                                        description: communities[index]
-                                            ["description"],
-                                        followerNumber: communities[index]
-                                            ["followerNumber"],
-                                        communityName: communities[index]
-                                            ["name"],
-                                        email: communities[index]["email"],
-                                      ),
+                                          relatedFaculty: communities[index]["faculty"],
+                                          description: communities[index]["description"],
+                                          followerNumber: communities[index]["followerNumber"],
+                                          communityName: communities[index]["name"],
+                                          email: communities[index]["email"],
+                                          id: communities[index]["id"]),
                                     ),
                                   ),
                                 ),

@@ -7,14 +7,10 @@ class StudentService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> createStudent(Student student, String password) async {
-    await _auth.createUserWithEmailAndPassword(
-        email: student.email, password: password);
-    await _firestore.collection("Students").doc(_auth.currentUser!.uid).set({
-      'name': student.name,
-      'email': student.email,
-      'faculty': student.faculty,
-      'studentNo': student.studentNo,
-      'type': "student"
-    });
+    await _auth.createUserWithEmailAndPassword(email: student.email, password: password);
+    await _firestore
+        .collection("Students")
+        .doc(_auth.currentUser!.uid)
+        .set({'name': student.name, 'email': student.email, 'faculty': student.faculty, 'studentNo': student.studentNo, 'type': "student"});
   }
 }

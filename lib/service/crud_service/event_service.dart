@@ -15,25 +15,44 @@ class EventService {
       'participants': 0,
       'image_url': event.imageUrl,
       'sections': event.sections,
-      'communityId': _auth.currentUser!.uid
+      'id': _auth.currentUser!.uid
     });
   }
 
-  Future<void> updateImageURL(
-      String communityUid, String eventUid, String imageUrl) async {
-    await _firestore
-        .collection("Events")
-        .doc(communityUid)
-        .update({'image_url': imageUrl});
+  Future<void> updateImageURL(String communityUid, String eventUid, String imageUrl) async {
+    await _firestore.collection("Events").doc(communityUid).update({'image_url': imageUrl});
   }
 
-  Future<void> updateParticipants(CommunityEvent event) async {
-    var _communityEventDocId =
-        event.communityId! + event.time!.toDate().toString().split('.')[0];
+  Future<void> updateParticipants(CommunityEvent event, bool joins) async {
+    var _eventId = event.communityId! + event.time!.toDate().toString().split('.')[0];
+    var document = _firestore.collection("Events").doc(_eventId);
 
+    await document.get().then((value) {
+      if (!joins) {
+        document.collection("Participants").get().then((value) {
+          document.update({'participants': value.size});
+        });
+        join(_eventId);
+      } else {
+        document.collection("Participants").doc(_eventId).delete();
+        document.collection("Participants").get().then((value) {
+          document.update({'participants': value.size});
+        });
+        unJoin(_eventId);
+      }
+    });
+  }
+
+  join(String eventId) async {
     await _firestore
         .collection("Events")
-        .doc(_communityEventDocId)
-        .update({'participants': event.participants!});
+        .doc(eventId)
+        .collection("Participants")
+        .doc(_auth.currentUser!.uid)
+        .set({'id': _auth.currentUser!.uid, 'email': _auth.currentUser!.email});
+  }
+
+  unJoin(String eventId) async {
+    await _firestore.collection("Events").doc(eventId).collection("Participants").doc(_auth.currentUser!.uid).delete();
   }
 }

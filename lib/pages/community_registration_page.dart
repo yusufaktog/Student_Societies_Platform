@@ -1,16 +1,14 @@
-import 'dart:ui';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
 import 'package:grad_project/model/community.dart';
-import 'package:grad_project/pages/main_page.dart';
 import 'package:grad_project/pages/student_registration_page.dart';
 import 'package:grad_project/service/crud_service/community_service.dart';
 
 import '../constants.dart';
+import 'main_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -180,7 +178,8 @@ class _CommunityRegistrationState extends State<CommunityRegistration> {
                                     description: _description,
                                     relatedFaculty: _relatedFaculty,
                                     followerNumber: 0,
-                                    email: _email),
+                                    email: _email,
+                                    id: FirebaseAuth.instance.currentUser!.uid),
                                 _password)
                             .then((value) => {
                                   Navigator.pushNamed(

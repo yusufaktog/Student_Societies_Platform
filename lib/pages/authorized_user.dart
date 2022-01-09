@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
-import 'package:grad_project/service/auth.dart';
 
 import '../constants.dart';
 
@@ -19,8 +18,6 @@ class AuthorizedUserPage extends StatefulWidget {
 }
 
 class _AuthorizedUserPageState extends State<AuthorizedUserPage> {
-  final AuthService _authService = AuthService();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

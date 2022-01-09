@@ -12,15 +12,14 @@ class CreateActivityPage extends StatefulWidget {
 class _CreateActivityState extends State<CreateActivityPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
+    return Center(
       child: TextButton(
         onPressed: () {
           _displayTextInputDialog(context);
         },
-        child: Text("CREATE"),
+        child: const Text("CREATE"),
       ),
-    ));
+    );
   }
 
   Future<Widget?> _displayTextInputDialog(BuildContext context) async {

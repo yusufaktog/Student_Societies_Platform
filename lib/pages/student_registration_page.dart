@@ -145,8 +145,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                 ),
                 Card(
                   color: Colors.grey,
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 25.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -157,17 +156,8 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                       onPressed: () {
                         var _email = _studentNo + "@ogr.cbu.edu.tr";
                         _studentService
-                            .createStudent(
-                                Student(
-                                    name: _name,
-                                    email: _email,
-                                    faculty: _faculty,
-                                    studentNo: _studentNo),
-                                _password)
-                            .then((value) => {
-                                  Navigator.pushNamed(
-                                      context, LoginPage.routeName)
-                                });
+                            .createStudent(Student(name: _name, email: _email, faculty: _faculty, studentNo: _studentNo), _password)
+                            .then((value) => {Navigator.pushNamed(context, LoginPage.routeName)});
                       },
                       text: "SUBMIT",
                     ),

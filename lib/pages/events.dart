@@ -32,14 +32,14 @@ class _EventsPageState extends State<EventsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: mainBackGroundColor,
         appBar: AppBar(
           backgroundColor: mainBackGroundColor,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(60.0),
+            preferredSize: const Size.fromHeight(58.0),
             child: Column(
               children: [
-                buildPreferredSize(
-                    context, this, false, false, true, widget.type),
+                buildPreferredSize(context, this, false, false, true, widget.type),
                 Row(
                   children: [
                     Expanded(
@@ -61,12 +61,11 @@ class _EventsPageState extends State<EventsPage> {
           child: Column(
             children: [
               StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection("Events")
-                      .snapshots(),
+                  stream: FirebaseFirestore.instance.collection("Events").snapshots(),
                   builder: (context, snapshot) {
                     return snapshot.connectionState != ConnectionState.waiting
                         ? ListView.builder(
+                            primary: false,
                             shrinkWrap: true,
                             itemCount: snapshot.data!.size,
                             itemBuilder: (context, index) {
@@ -91,8 +90,7 @@ class _EventsPageState extends State<EventsPage> {
                                     );
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0, horizontal: 16.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                                     child: EventCard(
                                         event: CommunityEvent(
                                             events[index]["name"],
@@ -159,42 +157,30 @@ class _EventsPageState extends State<EventsPage> {
                     onChanged: (value) {
                       _time = value;
                     },
-                    decoration: const InputDecoration(
-                        hintText: "2035-00-00 00:00:00: ",
-                        label: Text("Time:")),
+                    decoration: const InputDecoration(hintText: "2035-00-00 00:00:00: ", label: Text("Time:")),
                   ),
                   TextField(
                     maxLines: 2,
                     onChanged: (value) {
                       _sections = value;
                     },
-                    decoration: const InputDecoration(
-                        label: Text("Sections:"),
-                        hintText: "00:00-01:00-Example Speaker"),
+                    decoration: const InputDecoration(label: Text("Sections:"), hintText: "00:00-01:00-Example Speaker"),
                   ),
                   Row(
                     children: [
                       TextButton(
                         child: const Text("image from gallery"),
                         onPressed: () async {
-                          String fileName =
-                              DateTime.now().microsecondsSinceEpoch.toString();
-                          final XFile? photo = await _picker.pickImage(
-                              source: ImageSource.gallery);
+                          String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+                          final XFile? photo = await _picker.pickImage(source: ImageSource.gallery);
 
-                          Reference reference = FirebaseStorage.instance
-                              .ref()
-                              .child("Events")
-                              .child(fileName);
-                          UploadTask uploadTask =
-                              reference.putFile(File(photo!.path));
+                          Reference reference = FirebaseStorage.instance.ref().child("Events").child(fileName);
+                          UploadTask uploadTask = reference.putFile(File(photo!.path));
 
-                          TaskSnapshot taskSnapshot =
-                              await uploadTask.whenComplete(() {});
+                          TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
                           await taskSnapshot.ref.getDownloadURL().then((url) {
                             _imageUrl = url;
-                            _eventService.updateImageURL(
-                                user!.uid + _time!, _name, _imageUrl!);
+                            _eventService.updateImageURL(user!.uid + _time!, _name, _imageUrl!);
                             print(_imageUrl);
                           });
                           //print(eventImageUrl);
@@ -203,8 +189,7 @@ class _EventsPageState extends State<EventsPage> {
                       TextButton(
                         child: const Text("Image from camera"),
                         onPressed: () async {
-                          final XFile? image = await _picker.pickImage(
-                              source: ImageSource.camera);
+                          final XFile? image = await _picker.pickImage(source: ImageSource.camera);
                         },
                       )
                     ],
@@ -216,15 +201,8 @@ class _EventsPageState extends State<EventsPage> {
               TextButton(
                 child: const Text('OK'),
                 onPressed: () async {
-                  CommunityEvent event = CommunityEvent(
-                      _name,
-                      _description,
-                      _location,
-                      Timestamp.fromDate(DateTime.parse(_time!)),
-                      0,
-                      _sections,
-                      _imageUrl,
-                      FirebaseAuth.instance.currentUser!.uid);
+                  CommunityEvent event = CommunityEvent(_name, _description, _location, Timestamp.fromDate(DateTime.parse(_time!)), 0, _sections,
+                      _imageUrl, FirebaseAuth.instance.currentUser!.uid);
                   await _eventService.createEvent(user!.uid + _time!, event);
                   Navigator.pop(context);
                 },

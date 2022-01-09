@@ -10,8 +10,6 @@ import 'package:grad_project/pages/student_registration_page.dart';
 import 'package:grad_project/service/auth.dart';
 import 'package:grad_project/validators/input_validator.dart';
 
-// fire base default options bak
-
 import '../constants.dart';
 import 'authorized_user.dart';
 
@@ -67,8 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                               fit: BoxFit.fill,
                               child: CircleAvatar(
                                 backgroundColor: Color.fromRGBO(0, 0, 0, 0.1),
-                                backgroundImage:
-                                    AssetImage('assets/images/topluluk2.png'),
+                                backgroundImage: AssetImage('assets/images/topluluk2.png'),
                               ),
                             ),
                           ),
@@ -83,11 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Text(
                                       "STUDENT\nSOCIETIES\nPLATFORM",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          wordSpacing: 30.0,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 25.0,
-                                          color: Colors.white),
+                                      style: TextStyle(wordSpacing: 30.0, fontWeight: FontWeight.bold, fontSize: 25.0, color: Colors.white),
                                     ),
                                   ),
                                 ],
@@ -128,8 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                         textColor: Colors.grey,
                         fontSize: 15,
                         hintText: "Password",
-                        prefixIcon:
-                            const Icon(Icons.security, color: Colors.grey),
+                        prefixIcon: const Icon(Icons.security, color: Colors.grey),
                         suffixIcon: IconButton(
                             onPressed: () {
                               setState(() {
@@ -141,8 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                                     Icons.visibility,
                                     color: Colors.grey,
                                   )
-                                : const Icon(Icons.visibility_off,
-                                    color: Colors.grey)),
+                                : const Icon(Icons.visibility_off, color: Colors.grey)),
                       ),
                     ),
                     CustomCard(
@@ -158,33 +149,22 @@ class _LoginPageState extends State<LoginPage> {
                           if (!t1.text.contains(RegExp(r'[a-z]'))) {
                             _email = t1.text + "@ogr.cbu.edu.tr";
                             if (InputValidator.isValidStudentId(t1.text)) {
-                              _authService
-                                  .signIn(_email, _password)
-                                  .then((user) => {
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    AuthorizedUserPage(
-                                                        user: user,
-                                                        type: "studdent")),
-                                            (route) => false)
-                                      });
+                              _authService.signIn(_email, _password).then((user) => {
+                                    Navigator.pushAndRemoveUntil(context,
+                                        MaterialPageRoute(builder: (_) => AuthorizedUserPage(user: user, type: "studdent")), (route) => false)
+                                  });
                               print("Student girişi başarılı");
                             }
                           } else {
                             _email = t1.text + "@soc.cbu.edu.tr";
-                            _authService
-                                .signIn(_email, _password)
-                                .then((user) => {
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => AuthorizedUserPage(
-                                                user: user, type: "community"),
-                                          ),
-                                          (route) => false)
-                                    });
+                            _authService.signIn(_email, _password).then((user) => {
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => AuthorizedUserPage(user: user, type: "community"),
+                                      ),
+                                      (route) => false)
+                                });
                             print("Community girişi başarılı");
                           }
                         },
@@ -200,8 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                         text: "SIGN UP",
                         textStyle: const TextStyle(color: Colors.black87),
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, StudentRegistration.routeName);
+                          Navigator.pushNamed(context, StudentRegistration.routeName);
                         },
                       ),
                     ),
