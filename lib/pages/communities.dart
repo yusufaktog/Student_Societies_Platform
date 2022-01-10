@@ -20,6 +20,7 @@ class AuthorizedCommunityPage extends StatefulWidget {
 
 class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
   String _type = 'default';
+  String _query = "";
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,7 +52,9 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                     ),
                   ),
                   onChanged: (value) {
-                    setState(() {});
+                    setState(() {
+                      _query = value;
+                    });
                   },
                 ),
               ],
@@ -72,6 +75,11 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                             itemCount: snapshot.data!.size,
                             itemBuilder: (context, index) {
                               var communities = snapshot.data!.docs;
+                              // filter items by name
+                              if (!(communities[index]["name"].toString().toUpperCase().contains(_query.toUpperCase()) ||
+                                  communities[index]["name"].toString().toUpperCase().startsWith(_query.toUpperCase()))) {
+                                return const SizedBox();
+                              }
                               return Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                                 child: InkWell(
@@ -90,7 +98,7 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                                       ),
                                     );
                                   },
-                                  child: FirebaseAuth.instance.currentUser!.uid != communities[index]["id"]
+                                  child: FirebaseAuth.instance.currentUser!.uid != communities[index]["id"] // do not show the community itself
                                       ? Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
                                           child: CommunityCard(
@@ -103,7 +111,7 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                                                 id: communities[index]["id"]),
                                           ),
                                         )
-                                      : SizedBox(),
+                                      : const SizedBox(),
                                 ),
                               );
                             })

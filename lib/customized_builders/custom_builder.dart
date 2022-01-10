@@ -226,7 +226,7 @@ class _EventCardState extends State<EventCard> {
     return Card(
       color: Colors.blueAccent,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
           children: <Widget>[
             Expanded(

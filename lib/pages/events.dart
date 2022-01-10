@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
 import 'package:grad_project/model/event.dart';
 import 'package:grad_project/service/crud_service/event_service.dart';
@@ -62,38 +63,35 @@ class _EventsPageState extends State<EventsPage> {
                             itemCount: snapshot.data!.size,
                             itemBuilder: (context, index) {
                               var events = snapshot.data!.docs;
-                              return Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => DetailedEventCard(
-                                            event: CommunityEvent(
-                                                events[index]["name"],
-                                                events[index]["description"],
-                                                events[index]["location"],
-                                                events[index]["time"],
-                                                events[index]["participants"],
-                                                events[index]["sections"],
-                                                events[index]["image_url"],
-                                                events[index]["communityId"])),
-                                      ),
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-                                    child: EventCard(
-                                        event: CommunityEvent(
-                                            events[index]["name"],
-                                            events[index]["description"],
-                                            events[index]["location"],
-                                            events[index]["time"],
-                                            events[index]["participants"],
-                                            events[index]["sections"],
-                                            events[index]["image_url"],
-                                            events[index]["communityId"])),
-                                  ),
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailedEventCard(
+                                          event: CommunityEvent(
+                                              events[index]["name"],
+                                              events[index]["description"],
+                                              events[index]["location"],
+                                              events[index]["time"],
+                                              events[index]["participants"],
+                                              events[index]["sections"],
+                                              events[index]["image_url"],
+                                              events[index]["communityId"])),
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+                                  child: EventCard(
+                                      event: CommunityEvent(
+                                          events[index]["name"],
+                                          events[index]["description"],
+                                          events[index]["location"],
+                                          events[index]["time"],
+                                          events[index]["participants"],
+                                          events[index]["sections"],
+                                          events[index]["image_url"],
+                                          events[index]["communityId"])),
                                 ),
                               );
                             })
@@ -109,11 +107,10 @@ class _EventsPageState extends State<EventsPage> {
   }
 
   Future<Widget?> _displayTextInputDialog(BuildContext context) async {
-//name, description, location, time, participants, sections, imageFile
     var _name = '';
     var _description = '';
     var _location = '';
-    String? _time;
+    DateTime? _time = DateTime.now();
     var _sections = '';
     String? _imageUrl;
 
@@ -146,10 +143,32 @@ class _EventsPageState extends State<EventsPage> {
                     decoration: const InputDecoration(hintText: "Location:"),
                   ),
                   TextField(
-                    onChanged: (value) {
-                      _time = value;
+                    decoration: InputDecoration(hintText: "Tİme: ${_time.toString().split('.'[0])}"),
+                    readOnly: true,
+                    autofocus: false,
+                    enabled: false,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      DatePicker.showDateTimePicker(context,
+                          showTitleActions: true,
+                          minTime: DateTime.now(),
+                          maxTime: DateTime.now().add(const Duration(days: 90, hours: 24)), onChanged: (date) {
+                        setState(() {
+                          _time = date;
+                        });
+                      }, onConfirm: (date) {
+                        setState(() {
+                          _time = date;
+                        });
+                      }, currentTime: DateTime.now(), locale: LocaleType.en, theme: DatePickerTheme(headerColor: Colors.red));
                     },
-                    decoration: const InputDecoration(hintText: "2035-00-00 00:00:00: ", label: Text("Time:")),
+                    child: const Center(
+                      child: Text(
+                        'Show Date Time Picker',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
                   ),
                   TextField(
                     maxLines: 2,
@@ -163,25 +182,35 @@ class _EventsPageState extends State<EventsPage> {
                       TextButton(
                         child: const Text("image from gallery"),
                         onPressed: () async {
-                          String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-                          final XFile? photo = await _picker.pickImage(source: ImageSource.gallery);
+                          String timeStr = _time.toString().split('.')[0];
 
+                          String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+                          final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+                          Reference reference = FirebaseStorage.instance.ref().child("Events").child(fileName);
+                          UploadTask uploadTask = reference.putFile(File(image!.path));
+
+                          TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+                          await taskSnapshot.ref.getDownloadURL().then((url) {
+                            _imageUrl = url;
+                            _eventService.updateImageURL(user!.uid + timeStr, _name, _imageUrl!);
+                          });
+                        },
+                      ),
+                      TextButton(
+                        child: const Text("Image from camera"),
+                        onPressed: () async {
+                          String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+                          String timeStr = _time.toString().split('.')[0];
+                          final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
                           Reference reference = FirebaseStorage.instance.ref().child("Events").child(fileName);
                           UploadTask uploadTask = reference.putFile(File(photo!.path));
 
                           TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
                           await taskSnapshot.ref.getDownloadURL().then((url) {
                             _imageUrl = url;
-                            _eventService.updateImageURL(user!.uid + _time!, _name, _imageUrl!);
-                            print(_imageUrl);
+                            _eventService.updateImageURL(user!.uid + timeStr, _name, _imageUrl!);
                           });
-                          //print(eventImageUrl);
-                        },
-                      ),
-                      TextButton(
-                        child: const Text("Image from camera"),
-                        onPressed: () async {
-                          final XFile? image = await _picker.pickImage(source: ImageSource.camera);
                         },
                       )
                     ],
@@ -193,9 +222,10 @@ class _EventsPageState extends State<EventsPage> {
               TextButton(
                 child: const Text('OK'),
                 onPressed: () async {
-                  CommunityEvent event = CommunityEvent(_name, _description, _location, Timestamp.fromDate(DateTime.parse(_time!)), 0, _sections,
+                  String timeStr = _time.toString().split('.')[0];
+                  CommunityEvent event = CommunityEvent(_name, _description, _location, Timestamp.fromDate(DateTime.parse(timeStr)), 0, _sections,
                       _imageUrl, FirebaseAuth.instance.currentUser!.uid);
-                  await _eventService.createEvent(user!.uid + _time!, event);
+                  await _eventService.createEvent(user!.uid + timeStr, event);
                   Navigator.pop(context);
                 },
               ),
