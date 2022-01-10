@@ -33,10 +33,8 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: backGroundColor,
-      margin: EdgeInsets.symmetric(
-          vertical: verticalMargin, horizontal: horizontalMargin),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius)),
+      margin: EdgeInsets.symmetric(vertical: verticalMargin, horizontal: horizontalMargin),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
       child: Padding(padding: EdgeInsets.all(allPadding), child: child),
     );
   }
@@ -77,10 +75,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(
-            color: textColor,
-            fontSize: fontSize,
-            fontWeight: FontWeight.normal),
+        hintStyle: TextStyle(color: textColor, fontSize: fontSize, fontWeight: FontWeight.normal),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
       ),
@@ -123,19 +118,17 @@ class CustomAppBarElement extends StatelessWidget {
   final State state;
   final String routeName;
   final bool isUnderlined;
-  final Object? arguments;
   final String text;
   final double fontSize;
 
-  const CustomAppBarElement(
-      {Key? key,
-      required this.state,
-      required this.routeName,
-      required this.isUnderlined,
-      required this.text,
-      required this.fontSize,
-      this.arguments})
-      : super(key: key);
+  const CustomAppBarElement({
+    Key? key,
+    required this.state,
+    required this.routeName,
+    required this.isUnderlined,
+    required this.text,
+    required this.fontSize,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -148,22 +141,16 @@ class CustomAppBarElement extends StatelessWidget {
       child: CustomTextButton(
         onPressed: () {
           state.setState(() {
-            Navigator.pushNamed(context, routeName, arguments: arguments);
+            Navigator.pushNamed(context, routeName);
           });
         },
         text: text,
         textStyle: TextStyle(
           color: Colors.transparent,
-          shadows: [
-            Shadow(
-                color: isUnderlined == true ? Colors.orange : Colors.white54,
-                offset: const Offset(0, -5))
-          ],
+          shadows: [Shadow(color: isUnderlined == true ? Colors.orange : Colors.white54, offset: const Offset(0, -5))],
           decorationThickness: 1.5,
           decorationColor: Colors.orange,
-          decoration: isUnderlined == true
-              ? TextDecoration.underline
-              : TextDecoration.none,
+          decoration: isUnderlined == true ? TextDecoration.underline : TextDecoration.none,
           fontSize: fontSize,
         ),
       ),
@@ -277,13 +264,7 @@ class _EventCardState extends State<EventCard> {
   }
 }
 
-PreferredSize buildPreferredSize(
-    BuildContext context,
-    State state,
-    bool homeUnderLined,
-    bool communityUnderLined,
-    bool activityUnderLined,
-    Object? arguments) {
+PreferredSize buildPreferredSize(BuildContext context, State state, bool homeUnderLined, bool communityUnderLined, bool activityUnderLined) {
   var flexFactor = 3;
   var fontSize = 15.0;
   final AuthService _authService = AuthService();
@@ -300,30 +281,21 @@ PreferredSize buildPreferredSize(
             isUnderlined: homeUnderLined,
             text: "HOME PAGE",
             fontSize: fontSize,
-            arguments: arguments,
           ),
         ),
         Expanded(
           flex: flexFactor,
           child: CustomAppBarElement(
-            state: state,
-            routeName: AuthorizedCommunityPage.routeName,
-            isUnderlined: communityUnderLined,
-            text: "COMMUNITIES",
-            fontSize: fontSize - 2,
-            arguments: arguments,
-          ),
+              state: state,
+              routeName: AuthorizedCommunityPage.routeName,
+              isUnderlined: communityUnderLined,
+              text: "COMMUNITIES",
+              fontSize: fontSize - 2),
         ),
         Expanded(
           flex: flexFactor,
           child: CustomAppBarElement(
-            state: state,
-            routeName: EventsPage.routeName,
-            isUnderlined: activityUnderLined,
-            text: "EVENTS",
-            fontSize: fontSize,
-            arguments: arguments,
-          ),
+              state: state, routeName: EventsPage.routeName, isUnderlined: activityUnderLined, text: "EVENTS", fontSize: fontSize),
         ),
         Expanded(
           flex: 1,

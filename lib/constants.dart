@@ -16,9 +16,9 @@ var routes = {
   LoginPage.routeName: (context) => const LoginPage(),
   StudentRegistration.routeName: (context) => const StudentRegistration(),
   CommunityRegistration.routeName: (context) => const CommunityRegistration(),
-  AuthorizedUserPage.routeName: (context) => const AuthorizedUserPage(user: null, type: ''),
-  AuthorizedCommunityPage.routeName: (context) => const AuthorizedCommunityPage(type: ''),
-  EventsPage.routeName: (context) => const EventsPage(type: ''),
+  AuthorizedUserPage.routeName: (context) => const AuthorizedUserPage(user: null),
+  AuthorizedCommunityPage.routeName: (context) => const AuthorizedCommunityPage(),
+  EventsPage.routeName: (context) => const EventsPage(),
   CreateActivityPage.routeName: (context) => const CreateActivityPage()
 };
 const preferredAppBarHeight = Size.fromHeight(100);

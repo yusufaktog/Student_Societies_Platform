@@ -15,9 +15,8 @@ import '../constants.dart';
 import 'detailed_event.dart';
 
 class EventsPage extends StatefulWidget {
-  const EventsPage({Key? key, required this.type}) : super(key: key);
+  const EventsPage({Key? key}) : super(key: key);
   static const String routeName = '/activities';
-  final String type;
 
   @override
   _EventsPageState createState() => _EventsPageState();
@@ -28,6 +27,14 @@ class _EventsPageState extends State<EventsPage> {
   final EventService _eventService = EventService();
   final user = FirebaseAuth.instance.currentUser;
 
+  String _type = "default";
+
+  @override
+  void initState() {
+    super.initState();
+    getUserType();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,24 +43,9 @@ class _EventsPageState extends State<EventsPage> {
         appBar: AppBar(
           backgroundColor: mainBackGroundColor,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(58.0),
+            preferredSize: Size.fromHeight(adjustPreferredHeight()),
             child: Column(
-              children: [
-                buildPreferredSize(context, this, false, false, true, widget.type),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: TextButton(
-                        onPressed: () {
-                          _displayTextInputDialog(context);
-                        },
-                        child: const Text("Create Event"),
-                      ),
-                    )
-                  ],
-                )
-              ],
+              children: [buildPreferredSize(context, this, false, false, true), buildCreateEventButton()],
             ),
           ),
         ),
@@ -210,5 +202,39 @@ class _EventsPageState extends State<EventsPage> {
             ],
           );
         });
+  }
+
+  buildCreateEventButton() {
+    if (_type == "community") {
+      return Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: TextButton(
+              onPressed: () {
+                _displayTextInputDialog(context);
+              },
+              child: const Text("Create Event"),
+            ),
+          )
+        ],
+      );
+    }
+    return SizedBox();
+  }
+
+  adjustPreferredHeight() {
+    if (_type == "community") {
+      return 58.0;
+    } else {
+      return 20.0;
+    }
+  }
+
+  getUserType() async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection("Communities").doc(FirebaseAuth.instance.currentUser!.uid).get();
+    setState(() {
+      _type = documentSnapshot.exists ? "community" : "student";
+    });
   }
 }

@@ -68,13 +68,16 @@ class _DetailedEventCardState extends State<DetailedEventCard> {
                           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                             stream: FirebaseFirestore.instance.collection('Events').snapshots(),
                             builder: (_, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator();
+                              }
                               final docs = snapshot.data!.docs;
                               var participants;
-                              docs.forEach((element) {
+                              for (var element in docs) {
                                 if (element.id == widget.event.communityId! + widget.event.time!.toDate().toString().split('.')[0]) {
                                   participants = element.data()['participants'];
                                 }
-                              });
+                              }
                               return Center(
                                 child: Container(
                                     decoration: BoxDecoration(

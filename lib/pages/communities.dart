@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,15 +11,15 @@ import '../constants.dart';
 
 class AuthorizedCommunityPage extends StatefulWidget {
   static const String routeName = '/authorized_community_page';
-  final String type;
 
-  const AuthorizedCommunityPage({Key? key, required this.type}) : super(key: key);
+  const AuthorizedCommunityPage({Key? key}) : super(key: key);
 
   @override
   _AuthorizedCommunityPageState createState() => _AuthorizedCommunityPageState();
 }
 
 class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
+  String _type = 'default';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,7 +30,7 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
           bottom: PreferredSize(
             child: Column(
               children: [
-                buildPreferredSize(context, this, false, true, false, widget.type),
+                buildPreferredSize(context, this, false, true, false),
                 TextField(
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
@@ -89,18 +90,20 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                                       ),
                                     );
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
-                                    child: CommunityCard(
-                                      community: Community(
-                                          relatedFaculty: communities[index]["faculty"],
-                                          description: communities[index]["description"],
-                                          followerNumber: communities[index]["followerNumber"],
-                                          communityName: communities[index]["name"],
-                                          email: communities[index]["email"],
-                                          id: communities[index]["id"]),
-                                    ),
-                                  ),
+                                  child: FirebaseAuth.instance.currentUser!.uid != communities[index]["id"]
+                                      ? Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+                                          child: CommunityCard(
+                                            community: Community(
+                                                relatedFaculty: communities[index]["faculty"],
+                                                description: communities[index]["description"],
+                                                followerNumber: communities[index]["followerNumber"],
+                                                communityName: communities[index]["name"],
+                                                email: communities[index]["email"],
+                                                id: communities[index]["id"]),
+                                          ),
+                                        )
+                                      : SizedBox(),
                                 ),
                               );
                             })
@@ -113,5 +116,18 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserType();
+  }
+
+  getUserType() async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection("Communities").doc(FirebaseAuth.instance.currentUser!.uid).get();
+    setState(() {
+      _type = documentSnapshot.exists ? "community" : "student";
+    });
   }
 }

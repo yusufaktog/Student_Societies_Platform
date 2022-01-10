@@ -15,7 +15,7 @@ class EventService {
       'participants': 0,
       'image_url': event.imageUrl,
       'sections': event.sections,
-      'id': _auth.currentUser!.uid
+      'communityId': _auth.currentUser!.uid
     });
   }
 

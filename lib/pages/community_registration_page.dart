@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
@@ -9,17 +7,6 @@ import 'package:grad_project/service/crud_service/community_service.dart';
 
 import '../constants.dart';
 import 'main_page.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: firebaseConfig);
-  runApp(
-    MaterialApp(
-      home: const CommunityRegistration(),
-      routes: routes,
-    ),
-  );
-}
 
 class CommunityRegistration extends StatefulWidget {
   static const String routeName = '/community_registration';
@@ -32,7 +19,6 @@ class CommunityRegistration extends StatefulWidget {
 
 class _CommunityRegistrationState extends State<CommunityRegistration> {
   final CommunityService _communityService = CommunityService();
-  String currentHeader = "community";
 
   var _userName;
   var _password;
@@ -141,7 +127,7 @@ class _CommunityRegistrationState extends State<CommunityRegistration> {
                     onChanged: (value) {
                       _relatedFaculty = value;
                     },
-                    hintText: "Faculty (Translate it later!)",
+                    hintText: "Faculty",
                     fontSize: 15,
                     textColor: Colors.white54,
                   ),
@@ -179,12 +165,9 @@ class _CommunityRegistrationState extends State<CommunityRegistration> {
                                     relatedFaculty: _relatedFaculty,
                                     followerNumber: 0,
                                     email: _email,
-                                    id: FirebaseAuth.instance.currentUser!.uid),
+                                    id: ""),
                                 _password)
-                            .then((value) => {
-                                  Navigator.pushNamed(
-                                      context, LoginPage.routeName)
-                                });
+                            .then((value) => {Navigator.pushNamed(context, LoginPage.routeName)});
                       },
                       textStyle: const TextStyle(color: Colors.black87),
                     ),

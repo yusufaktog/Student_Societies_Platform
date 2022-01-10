@@ -15,7 +15,7 @@ import 'authorized_user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: firebaseConfig);
 
   runApp(
     MaterialApp(
@@ -150,8 +150,8 @@ class _LoginPageState extends State<LoginPage> {
                             _email = t1.text + "@ogr.cbu.edu.tr";
                             if (InputValidator.isValidStudentId(t1.text)) {
                               _authService.signIn(_email, _password).then((user) => {
-                                    Navigator.pushAndRemoveUntil(context,
-                                        MaterialPageRoute(builder: (_) => AuthorizedUserPage(user: user, type: "studdent")), (route) => false)
+                                    Navigator.pushAndRemoveUntil(
+                                        context, MaterialPageRoute(builder: (_) => AuthorizedUserPage(user: user)), (route) => false)
                                   });
                               print("Student girişi başarılı");
                             }
@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => AuthorizedUserPage(user: user, type: "community"),
+                                        builder: (_) => AuthorizedUserPage(user: user),
                                       ),
                                       (route) => false)
                                 });
