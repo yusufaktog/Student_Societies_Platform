@@ -19,7 +19,6 @@ class AuthorizedCommunityPage extends StatefulWidget {
 }
 
 class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
-  String _type = 'default';
   String _query = "";
   @override
   Widget build(BuildContext context) {
@@ -39,11 +38,11 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                     hintStyle: const TextStyle(
                       color: Color(0xFFA0A0A0),
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                    border: searchBarBorder,
+                    focusedBorder: searchBarBorder,
                     filled: true,
-                    fillColor: const Color(0xFFF0F0F6),
-                    focusColor: const Color(0xFFF0F0F6),
+                    fillColor: fillColor,
+                    focusColor: fillColor,
                     prefixIcon: IconButton(
                       icon: searchIcon,
                       onPressed: () {
@@ -124,18 +123,5 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getUserType();
-  }
-
-  getUserType() async {
-    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection("Communities").doc(FirebaseAuth.instance.currentUser!.uid).get();
-    setState(() {
-      _type = documentSnapshot.exists ? "community" : "student";
-    });
   }
 }

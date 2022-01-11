@@ -28,6 +28,10 @@ const Icon logoutIcon = Icon(
 );
 const searchIcon = Icon(Icons.search);
 
+OutlineInputBorder searchBarBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(10.0));
+const fillColor = Color(0xFFF0F0F6);
+const divider = Divider(color: Colors.black, thickness: 2);
+
 const FirebaseOptions firebaseConfig = FirebaseOptions(
   apiKey: "AIzaSyB7Qu7D75-FyzGmyu5fnh6Fg_2WD9hopcA",
   authDomain: "graduation-project-ef9a7.firebaseapp.com",

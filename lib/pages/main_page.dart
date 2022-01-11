@@ -20,6 +20,7 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       initialRoute: LoginPage.routeName,
+      debugShowCheckedModeBanner: false,
       routes: routes,
     ),
   );
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                               fit: BoxFit.fill,
                               child: CircleAvatar(
                                 backgroundColor: Color.fromRGBO(0, 0, 0, 0.1),
-                                backgroundImage: AssetImage('assets/images/topluluk2.png'),
+                                backgroundImage: AssetImage('assets/images/community.png'),
                               ),
                             ),
                           ),
@@ -153,7 +154,6 @@ class _LoginPageState extends State<LoginPage> {
                                     Navigator.pushAndRemoveUntil(
                                         context, MaterialPageRoute(builder: (_) => AuthorizedUserPage(user: user)), (route) => false)
                                   });
-                              print("Student girişi başarılı");
                             }
                           } else {
                             _email = t1.text + "@soc.cbu.edu.tr";
@@ -165,7 +165,6 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       (route) => false)
                                 });
-                            print("Community girişi başarılı");
                           }
                         },
                       ),
@@ -184,24 +183,6 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                     ),
-                    CustomCard(
-                      backGroundColor: Colors.grey,
-                      verticalMargin: 10,
-                      horizontalMargin: 10,
-                      allPadding: 5.0,
-                      child: CustomTextButton(
-                        onPressed: () {
-                          if (!t1.text.contains(RegExp(r'[a-z]'))) {
-                            print(t1.text + "@ogr.cbu.edu.tr");
-                          } else {
-                            print("hata");
-                          }
-                          t1.clear();
-                        },
-                        text: 'click',
-                      ),
-                      borderRadius: 10.0,
-                    )
                   ],
                 ),
               ),

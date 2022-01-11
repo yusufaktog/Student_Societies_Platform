@@ -72,7 +72,7 @@ class _DetailedEventCardState extends State<DetailedEventCard> {
                                 return const CircularProgressIndicator();
                               }
                               final docs = snapshot.data!.docs;
-                              var participants;
+                              var participants = 0;
                               for (var element in docs) {
                                 if (element.id == widget.event.communityId! + widget.event.time!.toDate().toString().split('.')[0]) {
                                   participants = element.data()['participants'];
@@ -101,8 +101,6 @@ class _DetailedEventCardState extends State<DetailedEventCard> {
                               child: TextButton(
                                 onPressed: () {
                                   setState(() {
-                                    //print(widget.event.communityId! + widget.event.time!.toDate().toString().split('.')[0]);
-
                                     EventService().updateParticipants(widget.event, _joins);
                                     _joins = !_joins;
                                   });

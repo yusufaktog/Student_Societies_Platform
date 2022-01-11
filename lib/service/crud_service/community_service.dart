@@ -52,11 +52,4 @@ class CommunityService {
   unFollow(String communityId, String userId) async {
     await _firestore.collection("Communities").doc(communityId).collection("Followers").doc(userId).delete();
   }
-
-/*
-  *     document.get().then((document) {
-      print(document.id);
-    });
-    * */
-
 }

@@ -280,7 +280,7 @@ PreferredSize buildPreferredSize(BuildContext context, State state, bool homeUnd
             routeName: AuthorizedUserPage.routeName,
             isUnderlined: homeUnderLined,
             text: "HOME PAGE",
-            fontSize: fontSize,
+            fontSize: fontSize - 1,
           ),
         ),
         Expanded(
@@ -290,7 +290,7 @@ PreferredSize buildPreferredSize(BuildContext context, State state, bool homeUnd
               routeName: AuthorizedCommunityPage.routeName,
               isUnderlined: communityUnderLined,
               text: "COMMUNITIES",
-              fontSize: fontSize - 2),
+              fontSize: fontSize - 3),
         ),
         Expanded(
           flex: flexFactor,

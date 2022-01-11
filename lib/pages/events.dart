@@ -161,7 +161,7 @@ class _EventsPageState extends State<EventsPage> {
                         setState(() {
                           _time = date;
                         });
-                      }, currentTime: DateTime.now(), locale: LocaleType.en, theme: DatePickerTheme(headerColor: Colors.red));
+                      }, currentTime: DateTime.now(), locale: LocaleType.en, theme: const DatePickerTheme(headerColor: Colors.red));
                     },
                     child: const Center(
                       child: Text(
@@ -222,7 +222,7 @@ class _EventsPageState extends State<EventsPage> {
               TextButton(
                 child: const Text('OK'),
                 onPressed: () async {
-                  String timeStr = _time.toString().split('.')[0];
+                  String timeStr = _time.toString().split('.')[0]; // toUtc() ?
                   CommunityEvent event = CommunityEvent(_name, _description, _location, Timestamp.fromDate(DateTime.parse(timeStr)), 0, _sections,
                       _imageUrl, FirebaseAuth.instance.currentUser!.uid);
                   await _eventService.createEvent(user!.uid + timeStr, event);
@@ -250,7 +250,7 @@ class _EventsPageState extends State<EventsPage> {
         ],
       );
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   adjustPreferredHeight() {

@@ -23,10 +23,10 @@ class StudentRegistration extends StatefulWidget {
 class _StudentRegistrationState extends State<StudentRegistration> {
   final StudentService _studentService = StudentService();
 
-  var _studentNo;
-  var _password;
-  var _name;
-  var _faculty;
+  var _studentNo = "";
+  var _password = "";
+  var _name = "";
+  var _faculty = "";
 
   @override
   Widget build(BuildContext context) {

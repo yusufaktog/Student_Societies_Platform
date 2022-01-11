@@ -27,16 +27,16 @@ class _CreateActivityState extends State<CreateActivityPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('TextField in Dialog'),
+            title: const Text('TextField in Dialog'),
             content: TextField(
               onChanged: (value) {
                 setState(() {});
               },
-              decoration: InputDecoration(hintText: "Text Field in Dialog"),
+              decoration: const InputDecoration(hintText: "Text Field in Dialog"),
             ),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   setState(() {
                     Navigator.pop(context);

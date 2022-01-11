@@ -20,11 +20,11 @@ class CommunityRegistration extends StatefulWidget {
 class _CommunityRegistrationState extends State<CommunityRegistration> {
   final CommunityService _communityService = CommunityService();
 
-  var _userName;
-  var _password;
-  var _communityName;
-  var _relatedFaculty;
-  var _description;
+  var _userName = "";
+  var _password = "";
+  var _communityName = "";
+  var _relatedFaculty = "";
+  var _description = "";
 
   @override
   Widget build(BuildContext context) {
