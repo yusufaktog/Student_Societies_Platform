@@ -36,8 +36,6 @@ class CommunityService {
         unFollow(community.id, userId);
       }
     });
-
-    print('followers updated');
   }
 
   follow(String communityId, String userId) async {

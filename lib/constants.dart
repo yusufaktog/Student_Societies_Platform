@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:grad_project/pages/authorized_user.dart';
 import 'package:grad_project/pages/communities.dart';
 import 'package:grad_project/pages/community_registration_page.dart';
@@ -37,4 +38,43 @@ const FirebaseOptions firebaseConfig = FirebaseOptions(
   storageBucket: "graduation-project-ef9a7.appspot.com",
   messagingSenderId: "228608292447",
   appId: "1:228608292447:web:0fba8a4f254b34fae18dea",
+);
+Widget informationCatalog1 = Column(
+  children: [
+    Image.asset("assets/images/communities.png"),
+    const SizedBox(height: 30),
+    Text(
+      "Communities registered to the app can be viewed from Community tap ",
+      overflow: TextOverflow.ellipsis,
+      maxLines: 3,
+      style: const TextStyle(fontSize: 20, color: Colors.black54, fontWeight: FontWeight.normal),
+      key: UniqueKey(),
+    )
+  ],
+);
+Widget informationCatalog2 = Column(
+  children: [
+    Image.asset("assets/images/events.PNG"),
+    const SizedBox(height: 30),
+    Text(
+      "All the events created by communities can be viewed from the Events tap",
+      overflow: TextOverflow.ellipsis,
+      maxLines: 3,
+      style: const TextStyle(fontSize: 20, color: Colors.black54, fontWeight: FontWeight.normal),
+      key: UniqueKey(),
+    )
+  ],
+);
+Widget informationCatalog3 = Column(
+  children: [
+    Image.asset("assets/images/createEvent.png"),
+    const SizedBox(height: 30),
+    Text(
+      "Community Account owners can create Events by using clicking on this button",
+      overflow: TextOverflow.ellipsis,
+      maxLines: 3,
+      style: const TextStyle(fontSize: 20, color: Colors.black54, fontWeight: FontWeight.normal),
+      key: UniqueKey(),
+    )
+  ],
 );

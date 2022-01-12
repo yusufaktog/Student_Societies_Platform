@@ -187,7 +187,14 @@ class _CommunityCardState extends State<CommunityCard> {
               flex: 5,
               child: Column(
                 children: <Widget>[
-                  Text(widget.community.communityName),
+                  Text(widget.community.communityName,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      )),
                   const SizedBox(
                     height: 15,
                   ),
@@ -195,9 +202,11 @@ class _CommunityCardState extends State<CommunityCard> {
                     padding: const EdgeInsets.symmetric(horizontal: 40.0),
                     child: Text(
                       widget.community.description,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -214,6 +223,7 @@ class _CommunityCardState extends State<CommunityCard> {
 
 class EventCard extends StatefulWidget {
   final CommunityEvent event;
+
   const EventCard({Key? key, required this.event}) : super(key: key);
 
   @override
@@ -237,19 +247,25 @@ class _EventCardState extends State<EventCard> {
               flex: 5,
               child: Column(
                 children: <Widget>[
-                  Text(widget.event.name ?? "default"),
+                  Text(widget.event.name ?? "default",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.normal,
+                      )),
                   const SizedBox(
                     height: 15,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
                     child: Text(
                       widget.event.description ?? "default",
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
