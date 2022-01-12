@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class CommunityEvent {
   String? name;
   String? description;
   String? location;
-  Timestamp? time;
+  String? time;
   int? participants;
   String? sections;
   String? imageUrl;

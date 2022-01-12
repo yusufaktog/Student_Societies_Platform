@@ -20,11 +20,15 @@ class EventService {
   }
 
   Future<void> updateImageURL(String communityUid, String eventUid, String imageUrl) async {
-    await _firestore.collection("Events").doc(communityUid).update({'image_url': imageUrl});
+    try {
+      await _firestore.collection("Events").doc(communityUid).update({'image_url': imageUrl});
+    } on Error {
+      var fool = 5;
+    }
   }
 
   Future<void> updateParticipants(CommunityEvent event, bool joins) async {
-    var _eventId = event.communityId! + event.time!.toDate().toString().split('.')[0];
+    var _eventId = event.communityId! + event.time!.split('.')[0];
     var document = _firestore.collection("Events").doc(_eventId);
 
     await document.get().then((value) {

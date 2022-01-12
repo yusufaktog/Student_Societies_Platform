@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:grad_project/pages/authorized_user.dart';
 import 'package:grad_project/pages/communities.dart';
 import 'package:grad_project/pages/community_registration_page.dart';
-import 'package:grad_project/pages/create_activity_page.dart';
 import 'package:grad_project/pages/events.dart';
 import 'package:grad_project/pages/main_page.dart';
 import 'package:grad_project/pages/student_registration_page.dart';
@@ -19,7 +18,6 @@ var routes = {
   AuthorizedUserPage.routeName: (context) => const AuthorizedUserPage(user: null),
   AuthorizedCommunityPage.routeName: (context) => const AuthorizedCommunityPage(),
   EventsPage.routeName: (context) => const EventsPage(),
-  CreateActivityPage.routeName: (context) => const CreateActivityPage()
 };
 const preferredAppBarHeight = Size.fromHeight(100);
 const Icon logoutIcon = Icon(

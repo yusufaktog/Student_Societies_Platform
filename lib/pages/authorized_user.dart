@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,14 @@ class _AuthorizedUserPageState extends State<AuthorizedUserPage> {
       child: Scaffold(
         backgroundColor: mainBackGroundColor,
         appBar: buildPreferredSize(context, this, true, false, false),
-        body: Container(color: mainBackGroundColor),
+        body: Column(
+          children: const [
+            SizedBox(height: 10.0),
+            Center(
+                child: Text("Welcome to\n\n Student Societies Platform",
+                    textAlign: TextAlign.center, style: TextStyle(fontSize: 23, color: Colors.grey, fontWeight: FontWeight.bold)))
+          ],
+        ),
       ),
     );
   }

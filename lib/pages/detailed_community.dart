@@ -161,7 +161,7 @@ class _DetailedCommunityPageState extends State<DetailedCommunityPage> {
               const ListTile(
                 leading: FaIcon(FontAwesomeIcons.twitter, size: 40.0),
                 title: Text(
-                  "Instagram address",
+                  "Twitter address",
                   style: TextStyle(fontSize: 23, color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
               ),

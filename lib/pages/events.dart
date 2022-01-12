@@ -56,6 +56,9 @@ class _EventsPageState extends State<EventsPage> {
               StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance.collection("Events").snapshots(),
                   builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const CircularProgressIndicator();
+                    }
                     return snapshot.connectionState != ConnectionState.waiting
                         ? ListView.builder(
                             primary: false,
@@ -179,39 +182,45 @@ class _EventsPageState extends State<EventsPage> {
                   ),
                   Row(
                     children: [
-                      TextButton(
-                        child: const Text("image from gallery"),
-                        onPressed: () async {
-                          String timeStr = _time.toString().split('.')[0];
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: TextButton(
+                          child: const Text("image from Gallery"),
+                          onPressed: () async {
+                            String timeStr = _time.toString().split('.')[0];
 
-                          String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-                          final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                            String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+                            final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
-                          Reference reference = FirebaseStorage.instance.ref().child("Events").child(fileName);
-                          UploadTask uploadTask = reference.putFile(File(image!.path));
+                            Reference reference = FirebaseStorage.instance.ref().child("Events").child(fileName);
+                            UploadTask uploadTask = reference.putFile(File(image!.path));
 
-                          TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
-                          await taskSnapshot.ref.getDownloadURL().then((url) {
-                            _imageUrl = url;
-                            _eventService.updateImageURL(user!.uid + timeStr, _name, _imageUrl!);
-                          });
-                        },
+                            TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+                            await taskSnapshot.ref.getDownloadURL().then((url) {
+                              _imageUrl = url;
+                              _eventService.updateImageURL(user!.uid + timeStr, _name, _imageUrl!);
+                            });
+                          },
+                        ),
                       ),
-                      TextButton(
-                        child: const Text("Image from camera"),
-                        onPressed: () async {
-                          String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-                          String timeStr = _time.toString().split('.')[0];
-                          final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
-                          Reference reference = FirebaseStorage.instance.ref().child("Events").child(fileName);
-                          UploadTask uploadTask = reference.putFile(File(photo!.path));
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: TextButton(
+                          child: const Text("Image from Camera"),
+                          onPressed: () async {
+                            String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+                            String timeStr = _time.toString().split('.')[0];
+                            final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+                            Reference reference = FirebaseStorage.instance.ref().child("Events").child(fileName);
+                            UploadTask uploadTask = reference.putFile(File(photo!.path));
 
-                          TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
-                          await taskSnapshot.ref.getDownloadURL().then((url) {
-                            _imageUrl = url;
-                            _eventService.updateImageURL(user!.uid + timeStr, _name, _imageUrl!);
-                          });
-                        },
+                            TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+                            await taskSnapshot.ref.getDownloadURL().then((url) {
+                              _imageUrl = url;
+                              _eventService.updateImageURL(user!.uid + timeStr, _name, _imageUrl!);
+                            });
+                          },
+                        ),
                       )
                     ],
                   )
@@ -223,9 +232,13 @@ class _EventsPageState extends State<EventsPage> {
                 child: const Text('OK'),
                 onPressed: () async {
                   String timeStr = _time.toString().split('.')[0]; // toUtc() ?
-                  CommunityEvent event = CommunityEvent(_name, _description, _location, Timestamp.fromDate(DateTime.parse(timeStr)), 0, _sections,
-                      _imageUrl, FirebaseAuth.instance.currentUser!.uid);
-                  await _eventService.createEvent(user!.uid + timeStr, event);
+                  try {
+                    CommunityEvent event =
+                        CommunityEvent(_name, _description, _location, timeStr, 0, _sections, _imageUrl, FirebaseAuth.instance.currentUser!.uid);
+                    await _eventService.createEvent(user!.uid + timeStr, event);
+                  } on Error {
+                    var fool = 5;
+                  }
                   Navigator.pop(context);
                 },
               ),

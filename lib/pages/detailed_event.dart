@@ -74,7 +74,7 @@ class _DetailedEventCardState extends State<DetailedEventCard> {
                               final docs = snapshot.data!.docs;
                               var participants = 0;
                               for (var element in docs) {
-                                if (element.id == widget.event.communityId! + widget.event.time!.toDate().toString().split('.')[0]) {
+                                if (element.id == widget.event.communityId! + widget.event.time!.split('.')[0]) {
                                   participants = element.data()['participants'];
                                 }
                               }
@@ -138,7 +138,7 @@ class _DetailedEventCardState extends State<DetailedEventCard> {
                   size: 40,
                 ),
                 title: Text(
-                  widget.event.time!.toDate().toString().replaceAll('-', '/').split('.')[0],
+                  widget.event.time!.replaceAll('-', '/').split('.')[0],
                   style: const TextStyle(fontSize: 23, color: Colors.grey, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -191,7 +191,7 @@ class _DetailedEventCardState extends State<DetailedEventCard> {
   }
 
   studentJoinsEvent(String userId) async {
-    var eventId = widget.event.communityId! + widget.event.time!.toDate().toString().split('.')[0];
+    var eventId = widget.event.communityId! + widget.event.time!.split('.')[0];
     DocumentSnapshot doc = await FirebaseFirestore.instance.collection("Events").doc(eventId).collection("Participants").doc(userId).get();
 
     setState(() {

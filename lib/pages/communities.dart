@@ -45,9 +45,7 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                     focusColor: fillColor,
                     prefixIcon: IconButton(
                       icon: searchIcon,
-                      onPressed: () {
-                        setState(() {});
-                      },
+                      onPressed: () {},
                     ),
                   ),
                   onChanged: (value) {
