@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
 import 'package:grad_project/model/event.dart';
 import 'package:grad_project/service/crud_service/event_service.dart';
@@ -41,6 +42,7 @@ class _EventsPageState extends State<EventsPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: mainBackGroundColor,
+        drawer: buildDrawer(context),
         appBar: AppBar(
           backgroundColor: mainBackGroundColor,
           bottom: PreferredSize(
@@ -57,7 +59,7 @@ class _EventsPageState extends State<EventsPage> {
                   stream: FirebaseFirestore.instance.collection("Events").snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
+                      return const Center(child: CircularProgressIndicator());
                     }
                     return snapshot.connectionState != ConnectionState.waiting
                         ? ListView.builder(
@@ -110,6 +112,7 @@ class _EventsPageState extends State<EventsPage> {
   }
 
   Future<Widget?> _displayTextInputDialog(BuildContext context) async {
+    bool _isUploaded = true;
     var _name = '';
     var _description = '';
     var _location = '';
@@ -187,6 +190,7 @@ class _EventsPageState extends State<EventsPage> {
                         child: TextButton(
                           child: const Text("image from Gallery"),
                           onPressed: () async {
+                            _isUploaded = false;
                             String timeStr = _time.toString().split('.')[0];
 
                             String fileName = DateTime.now().microsecondsSinceEpoch.toString();
@@ -198,8 +202,7 @@ class _EventsPageState extends State<EventsPage> {
                             TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
                             await taskSnapshot.ref.getDownloadURL().then((url) {
                               _imageUrl = url;
-                              _eventService.updateImageURL(user!.uid + timeStr, _name, _imageUrl!);
-                            });
+                            }).whenComplete(() => _isUploaded = true);
                           },
                         ),
                       ),
@@ -208,6 +211,7 @@ class _EventsPageState extends State<EventsPage> {
                         child: TextButton(
                           child: const Text("Image from Camera"),
                           onPressed: () async {
+                            _isUploaded = false;
                             String fileName = DateTime.now().microsecondsSinceEpoch.toString();
                             String timeStr = _time.toString().split('.')[0];
                             final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
@@ -217,8 +221,7 @@ class _EventsPageState extends State<EventsPage> {
                             TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
                             await taskSnapshot.ref.getDownloadURL().then((url) {
                               _imageUrl = url;
-                              _eventService.updateImageURL(user!.uid + timeStr, _name, _imageUrl!);
-                            });
+                            }).whenComplete(() => _isUploaded = true);
                           },
                         ),
                       )
@@ -231,14 +234,15 @@ class _EventsPageState extends State<EventsPage> {
               TextButton(
                 child: const Text('OK'),
                 onPressed: () async {
-                  String timeStr = _time.toString().split('.')[0]; // toUtc() ?
-                  try {
-                    CommunityEvent event =
-                        CommunityEvent(_name, _description, _location, timeStr, 0, _sections, _imageUrl, FirebaseAuth.instance.currentUser!.uid);
-                    await _eventService.createEvent(user!.uid + timeStr, event);
-                  } on Error {
-                    var fool = 5;
+                  String timeStr = _time.toString().split('.')[0];
+                  if (!_isUploaded) {
+                    Fluttertoast.showToast(msg: "Please wait while image you picked is being uploaded...");
+                    return;
                   }
+                  CommunityEvent event =
+                      CommunityEvent(_name, _description, _location, timeStr, 0, _sections, _imageUrl, FirebaseAuth.instance.currentUser!.uid);
+                  await _eventService.createEvent(user!.uid + timeStr, event);
+
                   Navigator.pop(context);
                 },
               ),
@@ -268,10 +272,9 @@ class _EventsPageState extends State<EventsPage> {
 
   adjustPreferredHeight() {
     if (_type == "community") {
-      return 58.0;
-    } else {
-      return 20.0;
+      return 86.0;
     }
+    return 40.0;
   }
 
   getUserType() async {

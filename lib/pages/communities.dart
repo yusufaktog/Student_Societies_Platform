@@ -25,6 +25,7 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: mainBackGroundColor,
+        drawer: buildDrawer(context),
         appBar: AppBar(
           backgroundColor: mainBackGroundColor,
           bottom: PreferredSize(
@@ -56,7 +57,7 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                 ),
               ],
             ),
-            preferredSize: const Size.fromHeight(69.0),
+            preferredSize: const Size.fromHeight(100.0),
           ),
         ),
         body: SingleChildScrollView(
@@ -90,7 +91,8 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                                               followerNumber: communities[index]["followerNumber"],
                                               communityName: communities[index]["name"],
                                               email: communities[index]["email"],
-                                              id: communities[index]["id"]),
+                                              id: communities[index]["id"],
+                                              imageUrl: communities[index]["image_url"]),
                                         ),
                                       ),
                                     );
@@ -105,7 +107,8 @@ class _AuthorizedCommunityPageState extends State<AuthorizedCommunityPage> {
                                                 followerNumber: communities[index]["followerNumber"],
                                                 communityName: communities[index]["name"],
                                                 email: communities[index]["email"],
-                                                id: communities[index]["id"]),
+                                                id: communities[index]["id"],
+                                                imageUrl: communities[index]["image_url"]),
                                           ),
                                         )
                                       : const SizedBox(),

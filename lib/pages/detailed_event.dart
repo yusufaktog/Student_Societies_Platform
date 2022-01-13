@@ -80,17 +80,18 @@ class _DetailedEventCardState extends State<DetailedEventCard> {
                               }
                               return Center(
                                 child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey,
-                                      borderRadius: BorderRadius.circular(35.0),
-                                    ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(35.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                                        child: Text(participants.toString(), style: const TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
-                                      ),
-                                    )),
+                                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                                      child: Text(participants.toString(), style: const TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
+                                    ),
+                                  ),
+                                ),
                               );
                             },
                           ),

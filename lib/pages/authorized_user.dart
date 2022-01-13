@@ -1,18 +1,16 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:grad_project/customized_builders/custom_builder.dart';
+import 'package:grad_project/model/community.dart';
 
 import '../constants.dart';
 
 class AuthorizedUserPage extends StatefulWidget {
-  final User? user;
-
-  const AuthorizedUserPage({Key? key, required this.user}) : super(key: key);
+  const AuthorizedUserPage({Key? key}) : super(key: key);
   static const String routeName = '/authorized_page';
 
   @override
@@ -20,6 +18,7 @@ class AuthorizedUserPage extends StatefulWidget {
 }
 
 class _AuthorizedUserPageState extends State<AuthorizedUserPage> {
+  late Community _community;
   final List<Widget> _catalogs = List.of({informationCatalog1, informationCatalog2, informationCatalog3});
 
   @override
@@ -27,7 +26,14 @@ class _AuthorizedUserPageState extends State<AuthorizedUserPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: mainBackGroundColor,
-        appBar: buildPreferredSize(context, this, true, false, false),
+        appBar: AppBar(
+          backgroundColor: mainBackGroundColor,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(40.0),
+            child: buildPreferredSize(context, this, true, false, false),
+          ),
+        ),
+        drawer: buildDrawer(context),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

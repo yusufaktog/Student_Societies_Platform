@@ -165,7 +165,8 @@ class _CommunityRegistrationState extends State<CommunityRegistration> {
                                     relatedFaculty: _relatedFaculty,
                                     followerNumber: 0,
                                     email: _email,
-                                    id: ""),
+                                    id: "",
+                                    imageUrl: ""),
                                 _password)
                             .then((value) => {Navigator.pushNamed(context, LoginPage.routeName)});
                       },

@@ -16,7 +16,8 @@ class CommunityService {
       'description': community.description,
       'followerNumber': 0,
       'type': "community",
-      'id': _auth.currentUser!.uid
+      'id': _auth.currentUser!.uid,
+      'imageUrl': community.imageUrl
     });
   }
 
@@ -49,5 +50,15 @@ class CommunityService {
 
   unFollow(String communityId, String userId) async {
     await _firestore.collection("Communities").doc(communityId).collection("Followers").doc(userId).delete();
+  }
+
+  Future<void> update(Community community) async {
+    var document = _firestore.collection("Communities").doc(community.id);
+    await document.update({
+      'description': community.description,
+      'faculty': community.relatedFaculty,
+      'name': community.communityName,
+      'image_url': community.imageUrl
+    });
   }
 }

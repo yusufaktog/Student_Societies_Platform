@@ -150,10 +150,10 @@ class _LoginPageState extends State<LoginPage> {
                           if (!t1.text.contains(RegExp(r'[a-z]'))) {
                             _email = t1.text + "@ogr.cbu.edu.tr";
                             if (InputValidator.isValidStudentId(t1.text)) {
-                              _authService.signIn(_email, _password).then((user) => {
-                                    Navigator.pushAndRemoveUntil(
-                                        context, MaterialPageRoute(builder: (_) => AuthorizedUserPage(user: user)), (route) => false)
-                                  });
+                              _authService.signIn(_email, _password).then((value) {
+                                Navigator.pushAndRemoveUntil(
+                                    context, MaterialPageRoute(builder: (_) => const AuthorizedUserPage()), (route) => false);
+                              });
                             }
                           } else {
                             _email = t1.text + "@soc.cbu.edu.tr";
@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => AuthorizedUserPage(user: user),
+                                        builder: (_) => const AuthorizedUserPage(),
                                       ),
                                       (route) => false)
                                 });

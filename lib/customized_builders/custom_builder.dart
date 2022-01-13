@@ -1,12 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grad_project/model/community.dart';
 import 'package:grad_project/model/event.dart';
 import 'package:grad_project/pages/authorized_user.dart';
 import 'package:grad_project/pages/communities.dart';
 import 'package:grad_project/pages/events.dart';
 import 'package:grad_project/pages/main_page.dart';
+import 'package:grad_project/pages/setting_page.dart';
 import 'package:grad_project/service/auth.dart';
 
 import '../constants.dart';
@@ -181,7 +185,7 @@ class _CommunityCardState extends State<CommunityCard> {
           children: <Widget>[
             Expanded(
               flex: 2,
-              child: Image.asset("assets/no_image.png"),
+              child: widget.community.imageUrl!.isEmpty ? Image.asset("assets/no_image.png") : Image.network(widget.community.imageUrl!),
             ),
             Expanded(
               flex: 5,
@@ -250,22 +254,23 @@ class _EventCardState extends State<EventCard> {
                   Text(widget.event.name ?? "default",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 25,
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.bold,
                       )),
                   const SizedBox(
                     height: 15,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
                     child: Text(
                       widget.event.description ?? "default",
-                      maxLines: 3,
+                      maxLines: 6,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -331,6 +336,85 @@ PreferredSize buildPreferredSize(BuildContext context, State state, bool homeUnd
           ),
         )
       ],
+    ),
+  );
+}
+
+buildDrawer(context) {
+  return Drawer(
+    child: Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: Container(
+        color: Colors.grey,
+        child: ListView(
+          primary: true,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                color: mainBackGroundColor,
+              ),
+              currentAccountPicture: const CircleAvatar(
+                child: Icon(
+                  Icons.account_circle,
+                  size: 50,
+                  color: Colors.grey,
+                ),
+              ),
+              accountName: const Text(
+                "Yusuf Aktoğ",
+                style: TextStyle(color: Colors.black54, fontSize: 20, fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
+              ),
+              accountEmail: Text(
+                FirebaseAuth.instance.currentUser!.email ?? "default",
+                style: const TextStyle(color: Colors.black87, fontSize: 18, fontWeight: FontWeight.w600, overflow: TextOverflow.ellipsis),
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            Container(
+              color: mainBackGroundColor,
+              child: ListTile(
+                trailing: logoutIcon,
+                title: const Text('Log Out', style: TextStyle(color: Colors.black54, fontSize: 20, fontWeight: FontWeight.bold)),
+                tileColor: Colors.red,
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const LoginPage(),
+                      ),
+                      (route) => false);
+                },
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            Container(
+              alignment: Alignment.centerRight,
+              color: mainBackGroundColor,
+              child: ListTile(
+                trailing: const Icon(Icons.account_circle, color: Colors.blue, size: 30),
+                title: const Text(
+                  'Account Settings',
+                  style: TextStyle(color: Colors.black54, fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                tileColor: Colors.red,
+                onTap: () async {
+                  var type = await FirebaseFirestore.instance.collection("Communities").doc(FirebaseAuth.instance.currentUser!.uid).get();
+                  bool exists = type.exists;
+                  if (!exists) {
+                    Fluttertoast.showToast(msg: "This page is not available for student accounts for now...");
+                    return;
+                  }
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const CommunityAccountSettings() //change it later
+                        ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     ),
   );
 }

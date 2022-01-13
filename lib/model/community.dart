@@ -4,6 +4,7 @@ class Community {
   String relatedFaculty;
   String description;
   int followerNumber;
+  String? imageUrl;
   String email;
   String id;
 
@@ -14,5 +15,6 @@ class Community {
       this.userName,
       required this.followerNumber,
       required this.email,
-      required this.id});
+      required this.id,
+      this.imageUrl});
 }

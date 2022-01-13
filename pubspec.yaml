@@ -43,6 +43,7 @@ dependencies:
       url: https://github.com/Realank/flutter_datetime_picker.git
       ref: master
   font_awesome_flutter: ^9.2.0
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

@@ -9,6 +9,7 @@ import 'package:grad_project/pages/communities.dart';
 import 'package:grad_project/pages/community_registration_page.dart';
 import 'package:grad_project/pages/events.dart';
 import 'package:grad_project/pages/main_page.dart';
+import 'package:grad_project/pages/setting_page.dart';
 import 'package:grad_project/pages/student_registration_page.dart';
 
 const Color mainBackGroundColor = Color(0xff4D4365);
@@ -16,8 +17,9 @@ var routes = {
   LoginPage.routeName: (context) => const LoginPage(),
   StudentRegistration.routeName: (context) => const StudentRegistration(),
   CommunityRegistration.routeName: (context) => const CommunityRegistration(),
-  AuthorizedUserPage.routeName: (context) => const AuthorizedUserPage(user: null),
+  AuthorizedUserPage.routeName: (context) => const AuthorizedUserPage(),
   AuthorizedCommunityPage.routeName: (context) => const AuthorizedCommunityPage(),
+  CommunityAccountSettings.routeName: (context) => const CommunityAccountSettings(),
   EventsPage.routeName: (context) => const EventsPage(),
 };
 const preferredAppBarHeight = Size.fromHeight(100);

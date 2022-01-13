@@ -15,16 +15,8 @@ class EventService {
       'participants': 0,
       'image_url': event.imageUrl,
       'sections': event.sections,
-      'communityId': _auth.currentUser!.uid
+      'communityId': _auth.currentUser!.uid,
     });
-  }
-
-  Future<void> updateImageURL(String communityUid, String eventUid, String imageUrl) async {
-    try {
-      await _firestore.collection("Events").doc(communityUid).update({'image_url': imageUrl});
-    } on Error {
-      var fool = 5;
-    }
   }
 
   Future<void> updateParticipants(CommunityEvent event, bool joins) async {
